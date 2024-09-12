@@ -22,6 +22,7 @@ class HomeController extends GetxController {
     getPlayingMovieList();
     getTopRatedMovieList();
     getUpcomingMovieList();
+    getPopularMovieList();
   }
 
   @override

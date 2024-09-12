@@ -1,3 +1,5 @@
+import 'package:wizlah_assignment/global/movie_manager.dart';
+
 class MovieInfo {
   bool? adult;
   String? backdropPath;
@@ -29,6 +31,12 @@ class MovieInfo {
       this.video,
       this.voteAverage,
       this.voteCount});
+
+  List<String?> get genreTitle => MovieManager().genreList.map((genre) {
+        if (genreIds?.contains(genre.id) ?? false) {
+          return genre.name;
+        }
+      }).toList();
 
   MovieInfo.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];

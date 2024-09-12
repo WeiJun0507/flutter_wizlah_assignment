@@ -107,7 +107,7 @@ class MovieApi {
     return MovieDetail.fromJson(res);
   }
 
-  static Future searchMovieByQueries(
+  static Future<List<MovieInfo>> searchMovieByQueries(
     String query, {
     bool includeAdult = false,
     String language = 'en-US',
@@ -132,5 +132,45 @@ class MovieApi {
         if (year != null) 'year': year,
       },
     );
+
+    return MovieListResponse.fromJson(res).results ?? [];
+  }
+
+  static Future<List<MovieInfo>> getRecommendationMovie(
+    int movieId, {
+    String language = 'en-US',
+    int page = 1,
+  }) async {
+    String urlPath = '$_prefix/$movieId/recommendations';
+
+    final res = await HttpUtil().fetch(
+      FetchType.get,
+      url: urlPath,
+      queryParameters: {
+        'language': language,
+        'page': page.toString(),
+      },
+    );
+
+    return MovieListResponse.fromJson(res).results ?? [];
+  }
+
+  static Future<List<MovieInfo>> getSimilarMovie(
+    int movieId, {
+    String language = 'en-US',
+    int page = 1,
+  }) async {
+    String urlPath = '$_prefix/$movieId/similar';
+
+    final res = await HttpUtil().fetch(
+      FetchType.get,
+      url: urlPath,
+      queryParameters: {
+        'language': language,
+        'page': page.toString(),
+      },
+    );
+
+    return MovieListResponse.fromJson(res).results ?? [];
   }
 }

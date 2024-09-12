@@ -15,19 +15,20 @@ class MovieManager {
   List<Genre> genreList = [];
 
   Future<void> init() async {
-    genreList = await CommonApi.getMovieGenre();
+    // genreList = await CommonApi.getMovieGenre();
 
     if (genreList.isEmpty) {
       final genre =
           LocalStorageService().prefs.getString(LocalStorageService.GENRE);
       if (genre?.isNotEmpty ?? false) {
-        genreList = jsonDecode(genre!)
-            .map<Genre>((e) => Genre.fromJson(e))
-            .toList<Genre>();
+        genreList =
+            jsonDecode(genre!).map<Genre>((e) => Genre.fromJson(e)).toList();
       }
     }
   }
 
+  // todo: try catch and return data
+  // todo: data persistent?
   Future getMovieList() async {
     final playingMovieList = await MovieApi.getNowPlayingList();
   }
