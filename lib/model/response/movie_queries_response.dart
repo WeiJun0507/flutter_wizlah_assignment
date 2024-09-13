@@ -6,8 +6,12 @@ class MovieQueriesResponse {
   int? totalPages;
   int? totalResults;
 
-  MovieQueriesResponse(
-      {this.page, this.results, this.totalPages, this.totalResults});
+  MovieQueriesResponse({
+    this.page,
+    this.results,
+    this.totalPages,
+    this.totalResults,
+  });
 
   MovieQueriesResponse.fromJson(Map<String, dynamic> json) {
     page = json['page'];

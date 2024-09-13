@@ -10,6 +10,8 @@ class HomeController extends GetxController {
   List<MovieInfo> upcomingMovieList = [];
   List<MovieInfo> popularMovieList = [];
 
+  RxBool isLoading = false.obs;
+
   // UI State
   // search editing controller
   final TextEditingController searchController = TextEditingController();
@@ -19,10 +21,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
 
-    getPlayingMovieList();
-    getTopRatedMovieList();
-    getUpcomingMovieList();
-    getPopularMovieList();
+    initMovieList();
   }
 
   @override
@@ -31,19 +30,58 @@ class HomeController extends GetxController {
   }
 
   // Method
+  void initMovieList() {
+    nowPlayingMovieList = MovieManager().nowPlayingMovieList;
+    topRatedMovieList = MovieManager().topRatedMovieList;
+    upcomingMovieList = MovieManager().upcomingMovieList;
+    popularMovieList = MovieManager().popularMovieList;
+
+    initMovieListAsync();
+  }
+
+  Future<void> initMovieListAsync() async {
+    isLoading.value = true;
+    await getPlayingMovieList();
+    await getTopRatedMovieList();
+    await getUpcomingMovieList();
+    await getPopularMovieList();
+    isLoading.value = false;
+
+    update(['now_playing', 'for_you'].toList());
+  }
+
   Future<void> getPlayingMovieList() async {
-    MovieManager().getMovieList();
+    List<MovieInfo> latestMovieList = await MovieManager().getRemoteMovieList();
+
+    if (latestMovieList.isNotEmpty) {
+      nowPlayingMovieList = latestMovieList;
+    }
   }
 
   Future<void> getTopRatedMovieList() async {
-    MovieManager().getTopRatedMovieList();
+    List<MovieInfo> latestMovieList =
+        await MovieManager().getRemoteTopRatedMovieList();
+
+    if (latestMovieList.isNotEmpty) {
+      topRatedMovieList = latestMovieList;
+    }
   }
 
   Future<void> getUpcomingMovieList() async {
-    MovieManager().getUpcomingMovieList();
+    List<MovieInfo> latestMovieList =
+        await MovieManager().getRemoteUpcomingMovieList();
+
+    if (latestMovieList.isNotEmpty) {
+      upcomingMovieList = latestMovieList;
+    }
   }
 
   Future<void> getPopularMovieList() async {
-    MovieManager().getPopularMovieList();
+    List<MovieInfo> latestMovieList =
+        await MovieManager().getRemotePopularMovieList();
+
+    if (latestMovieList.isNotEmpty) {
+      popularMovieList = latestMovieList;
+    }
   }
 }

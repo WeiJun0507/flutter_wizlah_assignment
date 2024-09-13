@@ -28,32 +28,6 @@ class HttpUtil {
     CancelToken? cancelToken,
     bool authentication = true,
   }) async {
-    final Response<T> response = await _getResponse<T>(
-      fetchType,
-      url: url,
-      queryParameters: queryParameters,
-      pathParameters: pathParameters,
-      body: body,
-      headers: headers,
-      responseType: responseType,
-      cancelToken: cancelToken,
-      authentication: authentication,
-    );
-    return response.data!;
-  }
-
-  Future<Response<T>> _getResponse<T>(
-    FetchType fetchType, {
-    required String url,
-    required bool authentication,
-    Map<String, String>? queryParameters,
-    Map<String, String>? pathParameters,
-    Map<String, dynamic>? headers,
-    Object? body,
-    ResponseType? responseType,
-    CancelToken? cancelToken,
-    int retryAttempt = 3,
-  }) async {
     /// Request Url
     String requestUrl = Config.mainUrl + url;
 
@@ -87,6 +61,28 @@ class HttpUtil {
       receiveDataWhenStatusError: true,
     );
 
+    final Response<T> response = await _getResponse<T>(
+      fetchType,
+      replacedUri: replacedUri,
+      options: options,
+      body: body,
+      responseType: responseType,
+      cancelToken: cancelToken,
+      authentication: authentication,
+    );
+    return response.data!;
+  }
+
+  Future<Response<T>> _getResponse<T>(
+    FetchType fetchType, {
+    required Uri replacedUri,
+    required bool authentication,
+    required options,
+    Object? body,
+    ResponseType? responseType,
+    CancelToken? cancelToken,
+    int retryAttempt = 3,
+  }) async {
     try {
       final Response<T> response;
       switch (fetchType) {
@@ -142,15 +138,13 @@ class HttpUtil {
       return response;
     } catch (e) {
       if (retryAttempt > 0) {
-        Future.delayed(Duration(seconds: (3 - retryAttempt) * 2));
+        await Future.delayed(Duration(seconds: (3 - retryAttempt) * 3));
         retryAttempt -= 1;
         return _getResponse<T>(
           fetchType,
-          url: url,
-          queryParameters: queryParameters,
-          pathParameters: pathParameters,
+          replacedUri: replacedUri,
+          options: options,
           body: body,
-          headers: headers,
           responseType: responseType,
           cancelToken: cancelToken,
           authentication: authentication,

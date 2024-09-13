@@ -13,20 +13,21 @@ class PersonDetail {
   double? popularity;
   String? profilePath;
 
-  PersonDetail(
-      {this.adult,
-      this.alsoKnownAs,
-      this.biography,
-      this.birthday,
-      this.deathday,
-      this.gender,
-      this.id,
-      this.imdbId,
-      this.knownForDepartment,
-      this.name,
-      this.placeOfBirth,
-      this.popularity,
-      this.profilePath});
+  PersonDetail({
+    this.adult,
+    this.alsoKnownAs,
+    this.biography,
+    this.birthday,
+    this.deathday,
+    this.gender,
+    this.id,
+    this.imdbId,
+    this.knownForDepartment,
+    this.name,
+    this.placeOfBirth,
+    this.popularity,
+    this.profilePath,
+  });
 
   PersonDetail.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];

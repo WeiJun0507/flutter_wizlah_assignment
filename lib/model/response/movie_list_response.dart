@@ -8,16 +8,17 @@ class MovieListResponse {
   int? totalPages;
   int? totalResults;
 
-  MovieListResponse(
-      {this.dates,
-      this.page,
-      this.results,
-      this.totalPages,
-      this.totalResults});
+  MovieListResponse({
+    this.dates,
+    this.page,
+    this.results,
+    this.totalPages,
+    this.totalResults,
+  });
 
   @override
   MovieListResponse.fromJson(Map<String, dynamic> json) {
-    dates = Date.fromJson(json['dates']);
+    dates = Date.fromJson(json['dates'] ?? {});
     page = json['page'];
     if (json['results'] != null) {
       results = <MovieInfo>[];

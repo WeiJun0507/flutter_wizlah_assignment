@@ -6,8 +6,12 @@ class PersonListResponse {
   int? totalPages;
   int? totalResults;
 
-  PersonListResponse(
-      {this.page, this.results, this.totalPages, this.totalResults});
+  PersonListResponse({
+    this.page,
+    this.results,
+    this.totalPages,
+    this.totalResults,
+  });
 
   PersonListResponse.fromJson(Map<String, dynamic> json) {
     page = json['page'];

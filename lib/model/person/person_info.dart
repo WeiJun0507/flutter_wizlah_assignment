@@ -9,16 +9,17 @@ class PersonInfo {
   String? profilePath;
   List<KnownFor>? knownFor;
 
-  PersonInfo(
-      {this.adult,
-      this.gender,
-      this.id,
-      this.knownForDepartment,
-      this.name,
-      this.originalName,
-      this.popularity,
-      this.profilePath,
-      this.knownFor});
+  PersonInfo({
+    this.adult,
+    this.gender,
+    this.id,
+    this.knownForDepartment,
+    this.name,
+    this.originalName,
+    this.popularity,
+    this.profilePath,
+    this.knownFor,
+  });
 
   PersonInfo.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
