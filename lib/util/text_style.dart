@@ -14,25 +14,25 @@ class StandardTextStyle {
     fontWeight: FontWeight.w600,
     fontSize: SysSize.big,
     inherit: true,
-    height: 1.4,
+    height: 1.2,
   );
   static const TextStyle medium = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: SysSize.normal,
     inherit: true,
-    height: 1.4,
+    height: 1.2,
   );
   static const TextStyle normal = TextStyle(
     fontWeight: FontWeight.normal,
     fontSize: SysSize.normal,
     inherit: true,
-    height: 1.4,
+    height: 1.2,
   );
   static const TextStyle small = TextStyle(
     fontWeight: FontWeight.normal,
     fontSize: SysSize.small,
     inherit: true,
-    height: 1.4,
+    height: 1.2,
   );
 }
 
@@ -46,13 +46,13 @@ class StText extends StatelessWidget {
   final int? maxLines;
 
   const StText({
-    Key? key,
+    super.key,
     this.text,
     this.style,
     required this.defaultStyle,
     this.maxLines,
     this.align,
-  }) : super(key: key);
+  });
 
   const StText.small(
     String? text, {
@@ -117,7 +117,9 @@ class StText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: defaultStyle,
+      style: defaultStyle.copyWith(
+        height: oneLineH,
+      ),
       child: Text(
         text ?? '',
         maxLines: maxLines ?? 50,
@@ -157,4 +159,10 @@ class SysSize {
   static const double normal = 16;
   static const double small = 14;
   static const double tiny = 12;
+
+  static const double paddingSmall = 4.0;
+  static const double paddingMedium = 8.0;
+  static const double paddingBig = 12.0;
+
+  static const double paddingHuge = 24.0;
 }

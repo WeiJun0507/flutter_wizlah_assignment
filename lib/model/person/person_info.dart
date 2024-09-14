@@ -21,6 +21,12 @@ class PersonInfo {
     this.knownFor,
   });
 
+  String get genderString => gender == 1
+      ? 'Female'
+      : gender == 2
+          ? 'Male'
+          : 'Unknown';
+
   PersonInfo.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     gender = json['gender'];
@@ -33,7 +39,10 @@ class PersonInfo {
     if (json['known_for'] != null) {
       knownFor = <KnownFor>[];
       json['known_for'].forEach((v) {
-        knownFor!.add(KnownFor.fromJson(v));
+        final convertedV = KnownFor.fromJson(v);
+        if (convertedV.title != null) {
+          knownFor!.add(convertedV);
+        }
       });
     }
   }
@@ -76,26 +85,27 @@ class KnownFor {
   String? firstAirDate;
   List<String>? originCountry;
 
-  KnownFor(
-      {this.backdropPath,
-      this.id,
-      this.title,
-      this.originalTitle,
-      this.overview,
-      this.posterPath,
-      this.mediaType,
-      this.adult,
-      this.originalLanguage,
-      this.genreIds,
-      this.popularity,
-      this.releaseDate,
-      this.video,
-      this.voteAverage,
-      this.voteCount,
-      this.name,
-      this.originalName,
-      this.firstAirDate,
-      this.originCountry});
+  KnownFor({
+    this.backdropPath,
+    this.id,
+    this.title,
+    this.originalTitle,
+    this.overview,
+    this.posterPath,
+    this.mediaType,
+    this.adult,
+    this.originalLanguage,
+    this.genreIds,
+    this.popularity,
+    this.releaseDate,
+    this.video,
+    this.voteAverage,
+    this.voteCount,
+    this.name,
+    this.originalName,
+    this.firstAirDate,
+    this.originCountry,
+  });
 
   KnownFor.fromJson(Map<String, dynamic> json) {
     backdropPath = json['backdrop_path'];
@@ -107,7 +117,7 @@ class KnownFor {
     mediaType = json['media_type'];
     adult = json['adult'];
     originalLanguage = json['original_language'];
-    genreIds = json['genre_ids'].cast<int>();
+    genreIds = json['genre_ids']?.cast<int>();
     popularity = json['popularity'];
     releaseDate = json['release_date'];
     video = json['video'];
@@ -116,7 +126,7 @@ class KnownFor {
     name = json['name'];
     originalName = json['original_name'];
     firstAirDate = json['first_air_date'];
-    originCountry = json['origin_country'].cast<String>();
+    originCountry = json['origin_country']?.cast<String>();
   }
 
   Map<String, dynamic> toJson() {

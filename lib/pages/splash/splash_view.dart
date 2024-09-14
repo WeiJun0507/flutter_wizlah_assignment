@@ -3,7 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:wizlah_assignment/global/movie_manager.dart';
 import 'package:wizlah_assignment/navigator/routes.dart';
-import 'package:wizlah_assignment/service/local_storage.dart';
+import 'package:wizlah_assignment/service/app_service.dart';
+import 'package:wizlah_assignment/service/local_storage_service.dart';
 import 'package:wizlah_assignment/util/color.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -26,12 +27,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(
       const Duration(seconds: 2),
-      () => Get.toNamed(RouteName.home),
+      () => Get.offAndToNamed(RouteName.home),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (AppService().appScreenSize == Size.zero) {
+      AppService().appScreenSize = MediaQuery.sizeOf(context);
+    }
+
+    if (AppService().appViewPadding == EdgeInsets.zero) {
+      MediaQuery.viewPaddingOf(context);
+      AppService().appViewPadding = MediaQuery.viewPaddingOf(context);
+    }
+
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
       body: Center(

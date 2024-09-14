@@ -4,7 +4,7 @@ import 'package:wizlah_assignment/api/common.dart';
 import 'package:wizlah_assignment/api/movie.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/model/util/common.dart';
-import 'package:wizlah_assignment/service/local_storage.dart';
+import 'package:wizlah_assignment/service/local_storage_service.dart';
 
 class MovieManager {
   static final MovieManager _instance = MovieManager._internal();
@@ -56,7 +56,7 @@ class MovieManager {
     return playingMovieList;
   }
 
-  Future getRemoteTopRatedMovieList({
+  Future<List<MovieInfo>> getRemoteTopRatedMovieList({
     String language = 'en-US',
     int page = 1,
   }) async {
@@ -75,7 +75,7 @@ class MovieManager {
     return playingMovieList;
   }
 
-  Future getRemoteUpcomingMovieList({
+  Future<List<MovieInfo>> getRemoteUpcomingMovieList({
     String language = 'en-US',
     int page = 1,
   }) async {
@@ -94,7 +94,7 @@ class MovieManager {
     return playingMovieList;
   }
 
-  Future getRemotePopularMovieList({
+  Future<List<MovieInfo>> getRemotePopularMovieList({
     String language = 'en-US',
     int page = 1,
   }) async {
@@ -111,6 +111,16 @@ class MovieManager {
     }
 
     return playingMovieList;
+  }
+
+  Future<List<MovieInfo>> getSearchedMovieResult(
+    String query, {
+    int page = 1,
+  }) async {
+    return MovieApi.searchMovieByQueries(
+      query,
+      page: page,
+    );
   }
 
   // call once from initialization

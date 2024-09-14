@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:wizlah_assignment/global/movie_manager.dart';
 
 class MovieInfo {
@@ -33,16 +34,19 @@ class MovieInfo {
     this.voteCount,
   });
 
-  List<String?> get genreTitle => MovieManager().genreList.map((genre) {
-        if (genreIds?.contains(genre.id) ?? false) {
-          return genre.name;
-        }
-      }).toList();
+  List<String?> get genreTitle =>
+      genreIds?.map<String?>((e) {
+        return MovieManager()
+            .genreList
+            .firstWhereOrNull((g) => g.id == e)
+            ?.name;
+      }).toList() ??
+      [];
 
   MovieInfo.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    genreIds = json['genre_ids'].cast<int>();
+    genreIds = json['genre_ids']?.cast<int>();
     id = json['id'];
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];

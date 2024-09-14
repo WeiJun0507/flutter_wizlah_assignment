@@ -7,6 +7,8 @@ class LocalStorageService {
   static const String topRatedMovieList = 'topRatedMovieList';
   static const String popularMovieList = 'popularMovieList';
 
+  static const String popularPersonList = 'popularPersonList';
+
   static final LocalStorageService _instance = LocalStorageService._internal();
 
   factory LocalStorageService() => _instance;
