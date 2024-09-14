@@ -182,9 +182,9 @@ class DioUtil {
     _dio = Dio();
     _dio!.options = options;
     _dio!.interceptors.add(PrettyDioLogger(
-      requestHeader: true,
+      requestHeader: false,
       requestBody: false,
-      responseBody: true,
+      responseBody: false,
       responseHeader: false,
       error: true,
     ));

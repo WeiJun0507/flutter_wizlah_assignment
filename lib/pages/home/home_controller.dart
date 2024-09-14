@@ -5,6 +5,7 @@ import 'package:wizlah_assignment/global/person_manager.dart';
 import 'package:wizlah_assignment/model/enum/home/common_enum.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
+import 'package:wizlah_assignment/navigator/routes.dart';
 import 'package:wizlah_assignment/util/debounce.dart';
 
 class HomeController extends GetxController
@@ -167,6 +168,9 @@ class HomeController extends GetxController
     isSearching = false;
   }
 
+  /// Navigate to Movie detail
+  void goToMovieDetail(MovieInfo info) => Routes.toMovieDetail(info);
+
   /// UI Listener
   void onSearchTextChanged() {
     if (searchController.text.trim().isEmpty) {
@@ -187,7 +191,6 @@ class HomeController extends GetxController
     if (!isSearching &&
         searchScrollController.offset + _scrollThreshold >
             searchScrollController.position.maxScrollExtent) {
-      print('search more result');
       isSearching = true;
       searchPage += 1;
       getSearchResult(page: searchPage);

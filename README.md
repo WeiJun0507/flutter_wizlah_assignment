@@ -31,7 +31,33 @@ This project is a starting point for a Flutter application.
 2. Complete Search Home page UI
 3. Complete Person Home page UI
 
-###  * Logic *
+### *Logic*
 
 1. Complete Search Movie function
 2. Complete Movie list data, Person list data local persistent.
+
+---
+
+## Todo Task:
+
+1. Person List load more while scrolling
+3. Person Detail Page
+4. BottomSheetDialog (Recommendation Movies | Similar Movies)
+
+### Refineness:
+
+1. Skeleton Loading
+2. List Animation
+
+---
+
+# CHANGELOG 14 / 9 / 2024
+
+### *UI*
+
+1. Complete Movie Detail UI
+
+### *Logic*
+
+1. Complete Casting performers fetch.
+2. Complete Movie recommendation fetch.

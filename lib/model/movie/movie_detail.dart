@@ -55,6 +55,9 @@ class MovieDetail {
     this.voteCount,
   });
 
+  List<String?> get genreTitle =>
+      genres?.map<String?>((e) => e.name).toList() ?? [];
+
   MovieDetail.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];

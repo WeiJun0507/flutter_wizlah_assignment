@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:wizlah_assignment/api/common.dart';
 import 'package:wizlah_assignment/api/movie.dart';
+import 'package:wizlah_assignment/model/movie/movie_detail.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
+import 'package:wizlah_assignment/model/person/person_info.dart';
 import 'package:wizlah_assignment/model/util/common.dart';
 import 'package:wizlah_assignment/service/local_storage_service.dart';
 
@@ -117,10 +119,22 @@ class MovieManager {
     String query, {
     int page = 1,
   }) async {
-    return MovieApi.searchMovieByQueries(
+    return await MovieApi.searchMovieByQueries(
       query,
       page: page,
     );
+  }
+
+  Future<MovieDetail?> getMovieDetail(int movieId) async {
+    return MovieApi.getMovieDetail(movieId);
+  }
+
+  Future<List<PersonInfo>> getRemoteMovieCastingList(int movieId) async {
+    return MovieApi.getMovieCastingList(movieId);
+  }
+
+  Future<List<MovieInfo>> getRemoteRecommendationMovieList(int movieId) async {
+    return MovieApi.getRecommendationMovie(movieId);
   }
 
   // call once from initialization

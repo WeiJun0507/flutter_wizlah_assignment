@@ -18,7 +18,6 @@ class PersonCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(info.toJson());
     return Container(
       padding: const EdgeInsets.all(SysSize.paddingMedium),
       decoration: BoxDecoration(

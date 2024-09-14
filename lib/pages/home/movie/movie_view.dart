@@ -60,6 +60,9 @@ class MovieView extends GetView<HomeController> {
                         itemBuilder: (BuildContext context, int index) {
                           return MovieListingItem(
                             info: controller.nowPlayingMovieList[index],
+                            onDetailTap: () => controller.goToMovieDetail(
+                              controller.nowPlayingMovieList[index],
+                            ),
                           );
                         },
                       );
@@ -148,7 +151,12 @@ class MovieView extends GetView<HomeController> {
                             itemCount: movieList.length,
                             itemBuilder: (BuildContext context, int index) {
                               final MovieInfo info = movieList[index];
-                              return MovieCover(info: info);
+                              return MovieCover(
+                                info: info,
+                                onDetailTap: () => controller.goToMovieDetail(
+                                  info,
+                                ),
+                              );
                             },
                           ),
                         );

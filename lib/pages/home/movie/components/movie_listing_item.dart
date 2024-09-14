@@ -9,8 +9,13 @@ import 'package:wizlah_assignment/util/text_style.dart';
 
 class MovieListingItem extends StatelessWidget {
   final MovieInfo info;
+  final VoidCallback? onDetailTap;
 
-  const MovieListingItem({super.key, required this.info});
+  const MovieListingItem({
+    super.key,
+    required this.info,
+    this.onDetailTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +24,16 @@ class MovieListingItem extends StatelessWidget {
         return Stack(
           children: <Widget>[
             if (info.backdropPath?.isNotEmpty ?? false)
-              ExtendedImage.network(
-                Images.getUrl(
-                  info.backdropPath,
-                  size: Images.backdropHighest,
+              Hero(
+                tag: info.id.toString(),
+                child: ExtendedImage.network(
+                  Images.getUrl(
+                    info.backdropPath,
+                    size: Images.backdropHighest,
+                  ),
+                  constraints: constraints,
+                  fit: BoxFit.cover,
                 ),
-                constraints: constraints,
-                fit: BoxFit.cover,
               ),
             // top gradient
             Positioned(
@@ -171,6 +179,7 @@ class MovieListingItem extends StatelessWidget {
 
                     const SizedBox(height: SysSize.paddingBig),
                     InkWell(
+                      onTap: onDetailTap?.call,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           vertical: SysSize.paddingMedium,

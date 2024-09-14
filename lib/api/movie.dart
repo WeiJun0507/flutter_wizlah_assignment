@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:wizlah_assignment/api/http_util.dart';
 import 'package:wizlah_assignment/model/movie/movie_detail.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
+import 'package:wizlah_assignment/model/person/person_info.dart';
+import 'package:wizlah_assignment/model/response/movie_cast_response.dart';
 import 'package:wizlah_assignment/model/response/movie_list_response.dart';
 
 class MovieApi {
@@ -90,21 +94,25 @@ class MovieApi {
     return MovieListResponse.fromJson(res).results ?? [];
   }
 
-  static Future<MovieDetail> getMovieDetail(
+  static Future<MovieDetail?> getMovieDetail(
     int movieId, {
     String? appendToResponse,
     String language = 'en-US',
   }) async {
     String urlPath = '$_prefix/$movieId';
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        if (appendToResponse != null) 'append_to_response': appendToResponse,
-      },
-    );
+    try {
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          if (appendToResponse != null) 'append_to_response': appendToResponse,
+        },
+      );
 
-    return MovieDetail.fromJson(res);
+      return MovieDetail.fromJson(res);
+    } catch (e) {
+      return null;
+    }
   }
 
   static Future<List<MovieInfo>> searchMovieByQueries(
@@ -136,6 +144,23 @@ class MovieApi {
     return MovieListResponse.fromJson(res).results ?? [];
   }
 
+  static Future<List<PersonInfo>> getMovieCastingList(
+    int movieId, {
+    String language = 'en-US',
+  }) async {
+    String urlPath = '$_prefix/$movieId/credits';
+
+    final Map<String, dynamic> res = await HttpUtil().fetch(
+      FetchType.get,
+      url: urlPath,
+      queryParameters: {
+        'language': language,
+      },
+    );
+
+    return MovieCastResponse.fromJson(res).cast ?? [];
+  }
+
   static Future<List<MovieInfo>> getRecommendationMovie(
     int movieId, {
     String language = 'en-US',
@@ -143,7 +168,7 @@ class MovieApi {
   }) async {
     String urlPath = '$_prefix/$movieId/recommendations';
 
-    final res = await HttpUtil().fetch(
+    final Map<String, dynamic> res = await HttpUtil().fetch(
       FetchType.get,
       url: urlPath,
       queryParameters: {
@@ -151,6 +176,11 @@ class MovieApi {
         'page': page.toString(),
       },
     );
+
+    if (res.containsKey('results')) {
+      res['results'] =
+          (res['results'] as List).getRange(0, min(res['results'].length, 10));
+    }
 
     return MovieListResponse.fromJson(res).results ?? [];
   }
