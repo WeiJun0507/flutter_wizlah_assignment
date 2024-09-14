@@ -101,4 +101,7 @@ class MovieDetailController extends GetxController {
 
   // UI Interaction
   void onRecommendMovieTap(MovieInfo info) => Routes.toMovieDetail(info);
+
+  /// Navigate to Person detail
+  void goToPersonDetail(PersonInfo info) => Routes.toPersonDetail(info);
 }

@@ -29,7 +29,9 @@ class HomeController extends GetxController
 
   /// Person Result
   ScrollController personScrollController = ScrollController();
-  List<PersonInfo> popularPersonList = <PersonInfo>[];
+  bool isPersonLoading = false;
+  int personPage = 1;
+  RxList<PersonInfo> popularPersonList = <PersonInfo>[].obs;
   int personFetchTimestamp = 0;
 
   HomeLoadingState state = HomeLoadingState.isLoading;
@@ -145,13 +147,23 @@ class HomeController extends GetxController
 
   /// People Initialized
   void initPersonList() {
-    popularPersonList = PersonManager().popularPersonList;
+    popularPersonList.assignAll(PersonManager().popularPersonList);
   }
 
-  Future<void> getPopularPersonList() async {
+  Future<void> getPopularPersonList({int page = 1}) async {
     personFetchTimestamp = DateTime.now().millisecondsSinceEpoch;
 
-    popularPersonList = await PersonManager().getRemotePersonInfo();
+    List<PersonInfo> infoResults = await PersonManager().getRemotePersonInfo(
+      page: page,
+    );
+
+    if (page != 1) {
+      popularPersonList.addAll(infoResults);
+    } else {
+      popularPersonList.assignAll(infoResults);
+    }
+
+    isPersonLoading = false;
   }
 
   void getSearchResult({int page = 1}) async {
@@ -170,6 +182,9 @@ class HomeController extends GetxController
 
   /// Navigate to Movie detail
   void goToMovieDetail(MovieInfo info) => Routes.toMovieDetail(info);
+
+  /// Navigate to Person detail
+  void goToPersonDetail(PersonInfo info) => Routes.toPersonDetail(info);
 
   /// UI Listener
   void onSearchTextChanged() {
@@ -199,6 +214,14 @@ class HomeController extends GetxController
 
   void onPersonScrollListener() {
     // fetch more result from person
+    // fetch more result from search
+    if (!isPersonLoading &&
+        personScrollController.offset + _scrollThreshold >
+            personScrollController.position.maxScrollExtent) {
+      isPersonLoading = true;
+      personPage += 1;
+      getPopularPersonList(page: personPage);
+    }
   }
 
   /// UI Interaction Method

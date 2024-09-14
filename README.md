@@ -38,19 +38,6 @@ This project is a starting point for a Flutter application.
 
 ---
 
-## Todo Task:
-
-1. Person List load more while scrolling
-3. Person Detail Page
-4. BottomSheetDialog (Recommendation Movies | Similar Movies)
-
-### Refineness:
-
-1. Skeleton Loading
-2. List Animation
-
----
-
 # CHANGELOG 14 / 9 / 2024
 
 ### *UI*
@@ -61,3 +48,25 @@ This project is a starting point for a Flutter application.
 
 1. Complete Casting performers fetch.
 2. Complete Movie recommendation fetch.
+
+---
+
+# CHANGELOG 15 / 9 / 2024
+
+### *UI*
+
+1. Complete Person Detail UI
+
+---
+
+## Todo Task:
+
+1. BottomSheetDialog (Recommendation Movies | Similar Movies)
+2. User review
+
+### Refineness:
+
+1. Skeleton Loading
+2. List Animation
+
+---

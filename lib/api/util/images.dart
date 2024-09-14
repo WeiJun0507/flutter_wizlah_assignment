@@ -23,7 +23,7 @@ class Images {
   // profile size
   static const String profileSmallest = 'w45';
   static const String profileMedium = 'w185';
-  static const String profileHighest = 'w632';
+  static const String profileHighest = 'h632';
 
   // still size
   static const String STILL_SIZE_LOWEST = 'w92';

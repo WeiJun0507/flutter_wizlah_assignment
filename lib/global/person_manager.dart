@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:wizlah_assignment/api/person.dart';
+import 'package:wizlah_assignment/model/person/person_detail.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
+import 'package:wizlah_assignment/model/person/person_movie_cast.dart';
 import 'package:wizlah_assignment/service/local_storage_service.dart';
 
 class PersonManager {
@@ -28,6 +30,14 @@ class PersonManager {
     }
 
     return latestPopularList;
+  }
+
+  Future<PersonDetail?> getRemotePersonDetail(int personId) async {
+    return PersonApi.getPersonDetail(personId);
+  }
+
+  Future<List<PersonMovieCast>> getRemotePersonMovieCast(int personId) async {
+    return PersonApi.getPersonMovieCredits(personId);
   }
 
   List<PersonInfo> get popularPersonList {

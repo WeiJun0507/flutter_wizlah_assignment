@@ -6,36 +6,41 @@ import 'package:wizlah_assignment/util/text_style.dart';
 
 class MovieCastingItem extends StatelessWidget {
   final PersonInfo info;
+  final VoidCallback? onDetailTap;
 
   const MovieCastingItem({
     super.key,
     required this.info,
+    this.onDetailTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 80.0,
-      padding: const EdgeInsets.symmetric(horizontal: SysSize.paddingMedium),
-      child: Column(
-        children: <Widget>[
-          ExtendedImage.network(
-            Images.getUrl(
-              info.profilePath,
-              size: Images.profileMedium,
+    return InkWell(
+      onTap: onDetailTap?.call,
+      child: Container(
+        width: 80.0,
+        padding: const EdgeInsets.symmetric(horizontal: SysSize.paddingMedium),
+        child: Column(
+          children: <Widget>[
+            ExtendedImage.network(
+              Images.getUrl(
+                info.profilePath,
+                size: Images.profileMedium,
+              ),
+              shape: BoxShape.circle,
+              height: 60.0,
+              width: 60.0,
+              fit: BoxFit.cover,
             ),
-            shape: BoxShape.circle,
-            height: 60.0,
-            width: 60.0,
-            fit: BoxFit.cover,
-          ),
-          const SizedBox(height: SysSize.paddingSmall),
-          StText.small(
-            info.name,
-            align: TextAlign.center,
-            maxLines: 2,
-          ),
-        ],
+            const SizedBox(height: SysSize.paddingSmall),
+            StText.small(
+              info.name,
+              align: TextAlign.center,
+              maxLines: 2,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -29,6 +29,12 @@ class PersonDetail {
     this.profilePath,
   });
 
+  String get genderString => gender == 1
+      ? 'Female'
+      : gender == 2
+          ? 'Male'
+          : 'Unknown';
+
   PersonDetail.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     alsoKnownAs = json['also_known_as'].cast<String>();

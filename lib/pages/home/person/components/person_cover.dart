@@ -10,64 +10,72 @@ import 'package:wizlah_assignment/util/text_style.dart';
 
 class PersonCover extends StatelessWidget {
   final PersonInfo info;
+  final VoidCallback? onDetailTap;
 
   const PersonCover({
     super.key,
     required this.info,
+    this.onDetailTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(SysSize.paddingMedium),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: AppColor.whiteBorderColor,
-            width: 0.5,
+    return InkWell(
+      onTap: onDetailTap?.call,
+      child: Container(
+        padding: const EdgeInsets.all(SysSize.paddingMedium),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: AppColor.whiteBorderColor,
+              width: 0.5,
+            ),
           ),
         ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: const BorderRadius.horizontal(
-              left: Radius.circular(SysSize.paddingBig),
-            ),
-            child: ExtendedImage.network(
-              Images.getUrl(
-                info.profilePath,
-                size: Images.profileMedium,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: const BorderRadius.horizontal(
+                left: Radius.circular(SysSize.paddingBig),
               ),
-              width: AppService().appScreenSize.width * 0.3,
-              height: AppService().appScreenSize.height * 0.2,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(
-            width: SysSize.paddingBig,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                StText.big(info.name),
-                const SizedBox(height: SysSize.paddingMedium),
-                StText.small(
-                  '${info.genderString} · ${info.knownForDepartment}',
-                  style: StandardTextStyle.small.copyWith(
-                    fontSize: SysSize.tiny,
-                    color: AppColor.whitePrimaryColor.withOpacity(0.8),
+              child: Hero(
+                tag: info.id.toString(),
+                child: ExtendedImage.network(
+                  Images.getUrl(
+                    info.profilePath,
+                    size: Images.profileMedium,
                   ),
+                  width: AppService().appScreenSize.width * 0.3,
+                  height: AppService().appScreenSize.height * 0.2,
+                  fit: BoxFit.cover,
                 ),
-                const SizedBox(height: SysSize.paddingMedium),
-                if (info.knownFor?.isNotEmpty ?? false)
-                  _buildKnownInfo(context),
-              ],
+              ),
             ),
-          )
-        ],
+            const SizedBox(
+              width: SysSize.paddingBig,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  StText.big(info.name),
+                  const SizedBox(height: SysSize.paddingMedium),
+                  StText.small(
+                    '${info.genderString} · ${info.knownForDepartment}',
+                    style: StandardTextStyle.small.copyWith(
+                      fontSize: SysSize.tiny,
+                      color: AppColor.whitePrimaryColor.withOpacity(0.8),
+                    ),
+                  ),
+                  const SizedBox(height: SysSize.paddingMedium),
+                  if (info.knownFor?.isNotEmpty ?? false)
+                    _buildKnownInfo(context),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -110,10 +110,14 @@ class SearchView extends GetView<HomeController> {
           itemCount: controller.topRatedMovieList.length,
           itemBuilder: (BuildContext context, int index) {
             final MovieInfo info = controller.topRatedMovieList[index];
-            return MovieCover(info: info);
+            return MovieCover(
+              info: info,
+              onDetailTap: () => controller.goToMovieDetail(info),
+            );
           },
         ),
       ),
+      const SizedBox(height: SysSize.paddingMedium),
     ];
   }
 
@@ -121,7 +125,7 @@ class SearchView extends GetView<HomeController> {
     return [
       // Top rated
       const StText.big('Upcoming Movie'),
-
+      const SizedBox(height: SysSize.paddingMedium),
       SizedBox(
         height: AppService().appScreenSize.height * 0.35,
         child: ListView.builder(
@@ -129,10 +133,14 @@ class SearchView extends GetView<HomeController> {
           itemCount: controller.upcomingMovieList.length,
           itemBuilder: (BuildContext context, int index) {
             final MovieInfo info = controller.upcomingMovieList[index];
-            return MovieCover(info: info);
+            return MovieCover(
+              info: info,
+              onDetailTap: () => controller.goToMovieDetail(info),
+            );
           },
         ),
       ),
+      const SizedBox(height: SysSize.paddingMedium),
     ];
   }
 
@@ -140,7 +148,7 @@ class SearchView extends GetView<HomeController> {
     return [
       // Top rated
       const StText.big('Most Watched Movie'),
-
+      const SizedBox(height: SysSize.paddingMedium),
       SizedBox(
         height: AppService().appScreenSize.height * 0.35,
         child: ListView.builder(
@@ -148,10 +156,14 @@ class SearchView extends GetView<HomeController> {
           itemCount: controller.popularMovieList.length,
           itemBuilder: (BuildContext context, int index) {
             final MovieInfo info = controller.popularMovieList[index];
-            return MovieCover(info: info);
+            return MovieCover(
+              info: info,
+              onDetailTap: () => controller.goToMovieDetail(info),
+            );
           },
         ),
       ),
+      const SizedBox(height: SysSize.paddingMedium),
     ];
   }
 
@@ -167,7 +179,10 @@ class SearchView extends GetView<HomeController> {
         itemCount: controller.searchMovieList.length,
         itemBuilder: (BuildContext context, int index) {
           MovieInfo info = controller.searchMovieList[index];
-          return MovieSearchResult(info: info);
+          return MovieSearchResult(
+            info: info,
+            onDetailTap: () => controller.goToMovieDetail(info),
+          );
         },
       );
     });
