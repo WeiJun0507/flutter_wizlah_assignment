@@ -230,6 +230,8 @@ class HomeController extends GetxController
   void onForYouTabChanged(int index) {
     currentTabIdx = index;
 
+    forYouScrollController.jumpTo(0.0);
+
     update(['for_you'].toList());
   }
 

@@ -16,7 +16,6 @@ class MovieReviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(info.toJson());
     return Container(
       margin: const EdgeInsets.only(right: SysSize.paddingMedium),
       padding: const EdgeInsets.symmetric(
