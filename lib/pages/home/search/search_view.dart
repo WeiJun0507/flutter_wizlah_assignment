@@ -4,6 +4,7 @@ import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/pages/home/home_controller.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_cover.dart';
 import 'package:wizlah_assignment/pages/home/search/components/movie_search_result.dart';
+import 'package:wizlah_assignment/pages/home/search/components/skeleton_search_result.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
 import 'package:wizlah_assignment/util/color.dart';
 import 'package:wizlah_assignment/util/text_style.dart';
@@ -58,25 +59,36 @@ class SearchView extends GetView<HomeController> {
                 ),
               ),
               const SizedBox(height: SysSize.paddingHuge),
-              Expanded(
-                child: Obx(() {
-                  return AnimatedCrossFade(
-                    firstChild: _buildDisplayMovieList(context),
-                    secondChild: _buildSearchResult(context),
-                    crossFadeState: !controller.showSearchResult.value
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    firstCurve: Curves.easeOut,
-                    secondCurve: Curves.easeIn,
-                    duration: const Duration(milliseconds: 300),
-                  );
-                }),
-              )
+              Expanded(child: _buildMovieContent(context)),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildMovieContent(context) {
+    return Obx(() {
+      if (!controller.showSearchResult.value) {
+        return _buildDisplayMovieList(context);
+      }
+
+      if (controller.searchMovieList.isEmpty) {
+        return const SkeletonSearchResult();
+      }
+
+      return ListView.builder(
+        controller: controller.searchScrollController,
+        itemCount: controller.searchMovieList.length,
+        itemBuilder: (BuildContext context, int index) {
+          MovieInfo info = controller.searchMovieList[index];
+          return MovieSearchResult(
+            info: info,
+            onDetailTap: () => controller.goToMovieDetail(info),
+          );
+        },
+      );
+    });
   }
 
   Widget _buildDisplayMovieList(BuildContext context) {
@@ -165,26 +177,5 @@ class SearchView extends GetView<HomeController> {
       ),
       const SizedBox(height: SysSize.paddingMedium),
     ];
-  }
-
-  Widget _buildSearchResult(BuildContext context) {
-    return Obx(() {
-      if (controller.searchMovieList.isEmpty) {
-        // display empty state
-        return const SizedBox();
-      }
-
-      return ListView.builder(
-        controller: controller.searchScrollController,
-        itemCount: controller.searchMovieList.length,
-        itemBuilder: (BuildContext context, int index) {
-          MovieInfo info = controller.searchMovieList[index];
-          return MovieSearchResult(
-            info: info,
-            onDetailTap: () => controller.goToMovieDetail(info),
-          );
-        },
-      );
-    });
   }
 }

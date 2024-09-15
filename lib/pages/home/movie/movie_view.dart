@@ -6,6 +6,7 @@ import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/pages/home/home_controller.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_cover.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_listing_item.dart';
+import 'package:wizlah_assignment/pages/home/movie/components/skeleton_movie_cover.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
 import 'package:wizlah_assignment/util/color.dart';
 import 'package:wizlah_assignment/util/text_style.dart';
@@ -121,11 +122,7 @@ class MovieView extends GetView<HomeController> {
               switchInCurve: Curves.easeOut,
               duration: const Duration(milliseconds: 300),
               child: controller.isLoading.value
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: AppColor.themeColor,
-                      ),
-                    )
+                  ? const SkeletonMovieCover()
                   : GetBuilder(
                       id: 'for_you',
                       init: controller,
@@ -147,6 +144,7 @@ class MovieView extends GetView<HomeController> {
                         return SizedBox(
                           height: AppService().appScreenSize.height * 0.35,
                           child: ListView.builder(
+                            controller: controller.forYouScrollController,
                             scrollDirection: Axis.horizontal,
                             itemCount: movieList.length,
                             itemBuilder: (BuildContext context, int index) {

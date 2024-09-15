@@ -6,6 +6,7 @@ import 'package:wizlah_assignment/api/util/images.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/model/person/person_movie_cast.dart';
 import 'package:wizlah_assignment/pages/person/components/movie_credit_item.dart';
+import 'package:wizlah_assignment/pages/person/components/skeleton_person_detail_casting.dart';
 import 'package:wizlah_assignment/pages/person/person_detail_controller.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
 import 'package:wizlah_assignment/util/color.dart';
@@ -185,11 +186,7 @@ class PersonDetailView extends StatelessWidget {
                     const SizedBox(height: SysSize.paddingHuge),
                     Obx(() {
                       if (controller.isLoading.value) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: AppColor.themeColor,
-                          ),
-                        );
+                        return const SkeletonPersonDetailCasting();
                       }
 
                       if (controller.personDetail == null) {

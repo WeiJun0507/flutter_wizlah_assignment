@@ -8,6 +8,7 @@ import 'package:wizlah_assignment/model/person/person_info.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_cover.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_rating.dart';
 import 'package:wizlah_assignment/pages/movie/components/movie_casting_item.dart';
+import 'package:wizlah_assignment/pages/movie/components/skeleton_movie_detail_casting.dart';
 import 'package:wizlah_assignment/pages/movie/movie_detail_controller.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
 import 'package:wizlah_assignment/util/color.dart';
@@ -250,11 +251,7 @@ class MovieDetailView extends StatelessWidget {
 
                       Obx(() {
                         if (controller.isLoading.value) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: AppColor.themeColor,
-                            ),
-                          );
+                          return const SkeletonMovieDetailCasting();
                         }
 
                         if (controller.movieDetail == null) {

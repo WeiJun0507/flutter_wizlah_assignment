@@ -166,6 +166,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  flutter_skeleton_plus:
+    dependency: "direct main"
+    description:
+      name: flutter_skeleton_plus
+      sha256: a4d79f5e9bda6f52a613e2e630a7a479772c15151dc965ecca6048c4bfda4879
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   flutter_svg:
     dependency: "direct main"
     description:

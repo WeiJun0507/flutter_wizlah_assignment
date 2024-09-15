@@ -59,14 +59,8 @@ This project is a starting point for a Flutter application.
 
 ---
 
-## Todo Task:
+# CHANGELOG 15 / 9 / 2024
 
-1. BottomSheetDialog (Recommendation Movies | Similar Movies)
-2. User review
+### *UI*
 
-### Refineness:
-
-1. Skeleton Loading
-2. List Animation
-
----
+1. Complete Skeleton Loading UI

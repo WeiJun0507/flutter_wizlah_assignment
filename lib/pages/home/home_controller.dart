@@ -18,6 +18,8 @@ class HomeController extends GetxController
   List<MovieInfo> upcomingMovieList = <MovieInfo>[];
   List<MovieInfo> popularMovieList = <MovieInfo>[];
 
+  final ScrollController forYouScrollController = ScrollController();
+
   /// Search Result
   final double _scrollThreshold = 400;
   ScrollController searchScrollController = ScrollController();
