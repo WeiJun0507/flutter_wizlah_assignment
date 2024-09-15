@@ -4,6 +4,7 @@ import 'package:wizlah_assignment/api/common.dart';
 import 'package:wizlah_assignment/api/movie.dart';
 import 'package:wizlah_assignment/model/movie/movie_detail.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
+import 'package:wizlah_assignment/model/movie/movie_review.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
 import 'package:wizlah_assignment/model/util/common.dart';
 import 'package:wizlah_assignment/service/local_storage_service.dart';
@@ -135,6 +136,10 @@ class MovieManager {
 
   Future<List<MovieInfo>> getRemoteRecommendationMovieList(int movieId) async {
     return MovieApi.getRecommendationMovie(movieId);
+  }
+
+  Future<List<MovieReview>> getRemoteMovieReviewList(int movieId) async {
+    return MovieApi.getMovieReviews(movieId);
   }
 
   // call once from initialization

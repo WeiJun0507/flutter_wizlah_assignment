@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wizlah_assignment/global/movie_manager.dart';
 import 'package:wizlah_assignment/model/movie/movie_detail.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
+import 'package:wizlah_assignment/model/movie/movie_review.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
 import 'package:wizlah_assignment/navigator/routes.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
@@ -23,6 +24,8 @@ class MovieDetailController extends GetxController {
 
   // recommendation list
   List<MovieInfo> recommendationMovieList = <MovieInfo>[];
+
+  List<MovieReview> movieReviewList = <MovieReview>[];
 
   // Page LifeCycle
   @override
@@ -82,6 +85,7 @@ class MovieDetailController extends GetxController {
 
     await _getMovieCasting(movieId);
     await _getMovieRecommendation(movieId);
+    await _getMovieReviewList(movieId);
 
     isLoading.value = false;
     update(['movie_detail_view'].toList());
@@ -97,6 +101,12 @@ class MovieDetailController extends GetxController {
         await MovieManager().getRemoteRecommendationMovieList(movieId);
 
     recommendationMovieList.assignAll(recommendList);
+  }
+
+  Future<void> _getMovieReviewList(int movieId) async {
+    final reviewList = await MovieManager().getRemoteMovieReviewList(movieId);
+
+    movieReviewList.assignAll(reviewList);
   }
 
   // UI Interaction

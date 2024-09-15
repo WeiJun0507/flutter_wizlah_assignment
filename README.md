@@ -20,7 +20,7 @@ This project is a starting point for a Flutter application.
 - Google Nav Bar (A better design for bottom navigation bar)
 
 ---
-## *Project is still under development.*
+## *Project completed*
 ---
 
 # CHANGELOG 14 / 9 / 2024
@@ -64,3 +64,7 @@ This project is a starting point for a Flutter application.
 ### *UI*
 
 1. Complete Skeleton Loading UI
+
+# CHANGELOG 15 / 9 / 2024
+
+**Complete Project**

@@ -4,10 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:wizlah_assignment/api/util/images.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
+import 'package:wizlah_assignment/model/movie/movie_review.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_cover.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_rating.dart';
 import 'package:wizlah_assignment/pages/movie/components/movie_casting_item.dart';
+import 'package:wizlah_assignment/pages/movie/components/movie_review_item.dart';
 import 'package:wizlah_assignment/pages/movie/components/skeleton_movie_detail_casting.dart';
 import 'package:wizlah_assignment/pages/movie/movie_detail_controller.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
@@ -275,6 +277,7 @@ class MovieDetailView extends StatelessWidget {
                         return Column(
                           children: <Widget>[
                             _buildActorView(context),
+                            _buildReviewList(context),
                             _buildRecommendationMovieView(context),
                           ],
                         );
@@ -307,6 +310,30 @@ class MovieDetailView extends StatelessWidget {
                   info: info,
                   onDetailTap: () => controller.goToPersonDetail(info),
                 );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReviewList(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: SysSize.paddingHuge),
+      height: AppService().appScreenSize.height * 0.3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const StText.big('Reviews'),
+          const SizedBox(height: SysSize.paddingBig),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: controller.movieReviewList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final MovieReview info = controller.movieReviewList[index];
+                return MovieReviewItem(info: info);
               },
             ),
           )

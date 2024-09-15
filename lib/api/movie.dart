@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:wizlah_assignment/api/http_util.dart';
 import 'package:wizlah_assignment/model/movie/movie_detail.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
+import 'package:wizlah_assignment/model/movie/movie_review.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
 import 'package:wizlah_assignment/model/response/movie_cast_response.dart';
 import 'package:wizlah_assignment/model/response/movie_list_response.dart';
+import 'package:wizlah_assignment/model/response/movie_review_response.dart';
 
 class MovieApi {
   static const String _prefix = 'movie';
@@ -202,5 +204,24 @@ class MovieApi {
     );
 
     return MovieListResponse.fromJson(res).results ?? [];
+  }
+
+  static Future<List<MovieReview>> getMovieReviews(
+    int movieId, {
+    String language = 'en-US',
+    int page = 1,
+  }) async {
+    String urlPath = '$_prefix/$movieId/reviews';
+
+    final res = await HttpUtil().fetch(
+      FetchType.get,
+      url: urlPath,
+      queryParameters: {
+        'language': language,
+        'page': page.toString(),
+      },
+    );
+
+    return MovieReviewResponse.fromJson(res).results ?? [];
   }
 }
