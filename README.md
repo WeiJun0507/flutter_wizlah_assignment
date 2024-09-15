@@ -53,6 +53,7 @@ This project is a starting point for a Flutter application.
 
 # CHANGELOG 15 / 9 / 2024
 
+
 ### *UI*
 
 1. Complete Person Detail UI
@@ -68,3 +69,7 @@ This project is a starting point for a Flutter application.
 # CHANGELOG 15 / 9 / 2024
 
 **Complete Project**
+
+## **Video Demo**
+
+[Wizlah Assignment Demo.webm](https://github.com/user-attachments/assets/b5e885dd-993b-434c-9c5f-2f78d10c271f)
