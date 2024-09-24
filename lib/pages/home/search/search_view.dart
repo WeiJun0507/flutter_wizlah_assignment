@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
+import 'package:wizlah_assignment/pages/components/empty_state_view.dart';
 import 'package:wizlah_assignment/pages/home/home_controller.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_cover.dart';
 import 'package:wizlah_assignment/pages/home/search/components/movie_search_result.dart';
 import 'package:wizlah_assignment/pages/home/search/components/skeleton_search_result.dart';
-import 'package:wizlah_assignment/service/app_service.dart';
 import 'package:wizlah_assignment/util/color.dart';
 import 'package:wizlah_assignment/util/text_style.dart';
 
@@ -74,7 +74,13 @@ class SearchView extends GetView<HomeController> {
       }
 
       if (controller.searchMovieList.isEmpty) {
-        return const SkeletonSearchResult();
+        if (controller.isSearching.value) {
+          return const SkeletonSearchResult();
+        }
+
+        return EmptyStateView(
+          onRetry: controller.getSearchResult,
+        );
       }
 
       return ListView.builder(
@@ -110,70 +116,76 @@ class SearchView extends GetView<HomeController> {
   }
 
   List<Widget> _buildDisplayTopRatedMovie(BuildContext context) {
-    return [
+    return <Widget>[
       // Top rated
       const StText.big('Top-rated Movie'),
 
       const SizedBox(height: SysSize.paddingMedium),
       SizedBox(
-        height: AppService().appScreenSize.height * 0.35,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: controller.topRatedMovieList.length,
-          itemBuilder: (BuildContext context, int index) {
-            final MovieInfo info = controller.topRatedMovieList[index];
-            return MovieCover(
-              info: info,
-              onDetailTap: () => controller.goToMovieDetail(info),
-            );
-          },
-        ),
+        height: 250,
+        child: controller.topRatedMovieList.isEmpty
+            ? const EmptyStateView()
+            : ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.topRatedMovieList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final MovieInfo info = controller.topRatedMovieList[index];
+                  return MovieCover(
+                    info: info,
+                    onDetailTap: () => controller.goToMovieDetail(info),
+                  );
+                },
+              ),
       ),
       const SizedBox(height: SysSize.paddingMedium),
     ];
   }
 
   List<Widget> _buildDisplayUpcomingMovie(BuildContext context) {
-    return [
+    return <Widget>[
       // Top rated
       const StText.big('Upcoming Movie'),
       const SizedBox(height: SysSize.paddingMedium),
       SizedBox(
-        height: AppService().appScreenSize.height * 0.35,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: controller.upcomingMovieList.length,
-          itemBuilder: (BuildContext context, int index) {
-            final MovieInfo info = controller.upcomingMovieList[index];
-            return MovieCover(
-              info: info,
-              onDetailTap: () => controller.goToMovieDetail(info),
-            );
-          },
-        ),
+        height: 250,
+        child: controller.upcomingMovieList.isEmpty
+            ? const EmptyStateView()
+            : ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.upcomingMovieList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final MovieInfo info = controller.upcomingMovieList[index];
+                  return MovieCover(
+                    info: info,
+                    onDetailTap: () => controller.goToMovieDetail(info),
+                  );
+                },
+              ),
       ),
       const SizedBox(height: SysSize.paddingMedium),
     ];
   }
 
   List<Widget> _buildDisplayPopularMovie(BuildContext context) {
-    return [
+    return <Widget>[
       // Top rated
       const StText.big('Most Watched Movie'),
       const SizedBox(height: SysSize.paddingMedium),
       SizedBox(
-        height: AppService().appScreenSize.height * 0.35,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: controller.popularMovieList.length,
-          itemBuilder: (BuildContext context, int index) {
-            final MovieInfo info = controller.popularMovieList[index];
-            return MovieCover(
-              info: info,
-              onDetailTap: () => controller.goToMovieDetail(info),
-            );
-          },
-        ),
+        height: 250,
+        child: controller.popularMovieList.isEmpty
+            ? const EmptyStateView()
+            : ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.popularMovieList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final MovieInfo info = controller.popularMovieList[index];
+                  return MovieCover(
+                    info: info,
+                    onDetailTap: () => controller.goToMovieDetail(info),
+                  );
+                },
+              ),
       ),
       const SizedBox(height: SysSize.paddingMedium),
     ];

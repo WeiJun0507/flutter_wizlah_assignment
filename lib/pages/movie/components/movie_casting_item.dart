@@ -23,16 +23,23 @@ class MovieCastingItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: SysSize.paddingMedium),
         child: Column(
           children: <Widget>[
-            ExtendedImage.network(
-              Images.getUrl(
-                info.profilePath,
-                size: Images.profileMedium,
-              ),
-              shape: BoxShape.circle,
-              height: 60.0,
-              width: 60.0,
-              fit: BoxFit.cover,
-            ),
+            (info.profilePath?.isEmpty ?? true)
+                ? Image.asset(
+                    'assets/image/tmdb_loading_placeholder.png',
+                    height: 60.0,
+                    width: 60.0,
+                    fit: BoxFit.cover,
+                  )
+                : ExtendedImage.network(
+                    Images.getUrl(
+                      info.profilePath,
+                      size: Images.profileMedium,
+                    ),
+                    shape: BoxShape.circle,
+                    height: 60.0,
+                    width: 60.0,
+                    fit: BoxFit.cover,
+                  ),
             const SizedBox(height: SysSize.paddingSmall),
             StText.small(
               info.name,

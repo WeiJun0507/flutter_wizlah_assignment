@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:wizlah_assignment/model/enum/home/common_enum.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
+import 'package:wizlah_assignment/pages/components/empty_state_view.dart';
 import 'package:wizlah_assignment/pages/home/home_controller.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_cover.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_listing_item.dart';
@@ -141,8 +142,15 @@ class MovieView extends GetView<HomeController> {
                             break;
                         }
 
+                        if (movieList.isEmpty) {
+                          return EmptyStateView(
+                            key: UniqueKey(),
+                            onRetry: controller.onMovieRetry,
+                          );
+                        }
+
                         return SizedBox(
-                          height: AppService().appScreenSize.height * 0.35,
+                          height: 250,
                           child: ListView.builder(
                             controller: controller.forYouScrollController,
                             scrollDirection: Axis.horizontal,

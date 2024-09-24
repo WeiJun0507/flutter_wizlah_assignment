@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
+import 'package:wizlah_assignment/pages/components/empty_state_view.dart';
 import 'package:wizlah_assignment/pages/home/home_controller.dart';
 import 'package:wizlah_assignment/pages/home/person/components/person_cover.dart';
 import 'package:wizlah_assignment/util/color.dart';
@@ -30,22 +31,25 @@ class PersonView extends GetView<HomeController> {
                 ),
               ),
               const SizedBox(height: SysSize.paddingBig),
-              Expanded(
-                child: Obx(
-                  () => ListView.builder(
-                    controller: controller.personScrollController,
-                    itemCount: controller.popularPersonList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final PersonInfo info =
-                          controller.popularPersonList[index];
-                      return PersonCover(
-                        info: info,
-                        onDetailTap: () => controller.goToPersonDetail(info),
-                      );
-                    },
+              if (controller.popularPersonList.isEmpty)
+                EmptyStateView(onRetry: controller.getPopularPersonList)
+              else
+                Expanded(
+                  child: Obx(
+                    () => ListView.builder(
+                      controller: controller.personScrollController,
+                      itemCount: controller.popularPersonList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final PersonInfo info =
+                            controller.popularPersonList[index];
+                        return PersonCover(
+                          info: info,
+                          onDetailTap: () => controller.goToPersonDetail(info),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

@@ -114,4 +114,19 @@ class MovieDetailController extends GetxController {
 
   /// Navigate to Person detail
   void goToPersonDetail(PersonInfo info) => Routes.toPersonDetail(info);
+
+  void onRecommendRetry() async {
+    await _getMovieReviewList(info!.id!);
+    update(['movie_detail_view'].toList());
+  }
+
+  void onReviewRetry() async {
+    await _getMovieReviewList(info!.id!);
+    update(['movie_detail_view'].toList());
+  }
+
+  void onCastingRetry() async {
+    await _getMovieCasting(info!.id!);
+    update(['movie_detail_view'].toList());
+  }
 }

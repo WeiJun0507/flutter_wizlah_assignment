@@ -14,54 +14,55 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-        id: 'home',
-        init: controller,
-        builder: (_) {
-          return Scaffold(
-            backgroundColor: AppColor.primaryColor,
-            body: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: controller.homePageController,
-              children: const <Widget>[
-                MovieView(),
-                SearchView(),
-                PersonView(),
-              ],
+      id: 'home',
+      init: controller,
+      builder: (_) {
+        return Scaffold(
+          backgroundColor: AppColor.primaryColor,
+          body: PageView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: controller.homePageController,
+            children: const <Widget>[
+              MovieView(),
+              SearchView(),
+              PersonView(),
+            ],
+          ),
+          bottomNavigationBar: GNav(
+            selectedIndex: controller.bottomNavIdx,
+            onTabChange: controller.onBottomNavTabChanged,
+            activeColor: AppColor.whitePrimaryColor,
+            curve: Curves.easeOut,
+            gap: SysSize.paddingMedium,
+            padding: const EdgeInsets.symmetric(
+              vertical: SysSize.paddingMedium,
+              horizontal: SysSize.paddingBig,
             ),
-            bottomNavigationBar: GNav(
-              selectedIndex: controller.bottomNavIdx,
-              onTabChange: controller.onBottomNavTabChanged,
-              activeColor: AppColor.whitePrimaryColor,
-              curve: Curves.easeOut,
-              gap: SysSize.paddingMedium,
-              padding: const EdgeInsets.symmetric(
-                vertical: SysSize.paddingMedium,
-                horizontal: SysSize.paddingBig,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            tabMargin: const EdgeInsets.all(SysSize.paddingBig),
+            tabs: [
+              GButton(
+                icon: Icons.home,
+                iconColor: AppColor.whiteAccentColor,
+                text: 'Home',
+                backgroundColor: AppColor.themeColor,
               ),
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              tabMargin: const EdgeInsets.all(SysSize.paddingBig),
-              tabs: [
-                GButton(
-                  icon: Icons.home,
-                  iconColor: AppColor.whiteAccentColor,
-                  text: 'Home',
-                  backgroundColor: AppColor.themeColor,
-                ),
-                GButton(
-                  icon: Icons.search,
-                  iconColor: AppColor.whiteAccentColor,
-                  text: 'Search',
-                  backgroundColor: AppColor.themeColor,
-                ),
-                GButton(
-                  icon: Icons.person_outline,
-                  iconColor: AppColor.whiteAccentColor,
-                  text: 'Person',
-                  backgroundColor: AppColor.themeColor,
-                ),
-              ],
-            ),
-          );
-        });
+              GButton(
+                icon: Icons.search,
+                iconColor: AppColor.whiteAccentColor,
+                text: 'Search',
+                backgroundColor: AppColor.themeColor,
+              ),
+              GButton(
+                icon: Icons.person_outline,
+                iconColor: AppColor.whiteAccentColor,
+                text: 'Person',
+                backgroundColor: AppColor.themeColor,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:wizlah_assignment/api/util/images.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/model/person/person_movie_cast.dart';
+import 'package:wizlah_assignment/pages/components/empty_state_view.dart';
 import 'package:wizlah_assignment/pages/person/components/movie_credit_item.dart';
 import 'package:wizlah_assignment/pages/person/components/skeleton_person_detail_casting.dart';
 import 'package:wizlah_assignment/pages/person/person_detail_controller.dart';
@@ -135,7 +136,7 @@ class PersonDetailView extends StatelessWidget {
                                   StText.big(controller.info?.name),
                                   const SizedBox(height: SysSize.paddingMedium),
                                   StText.small(
-                                    '${controller.info?.genderString} · ${controller.personDetail?.birthday ?? "-"} · ${controller.personDetail?.placeOfBirth}',
+                                    '${controller.info?.genderString} · ${controller.personDetail?.birthday ?? "-"} · ${controller.personDetail?.placeOfBirth ?? ""}',
                                     style: StandardTextStyle.small.copyWith(
                                       color: AppColor.whiteSecondaryColor,
                                     ),
@@ -208,12 +209,13 @@ class PersonDetailView extends StatelessWidget {
                       }
 
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           _buildBiography(context),
                           _buildMovieCreditList(context),
                         ],
                       );
-                    })
+                    }),
                   ],
                 ),
               ),
@@ -230,20 +232,28 @@ class PersonDetailView extends StatelessWidget {
       children: <Widget>[
         const StText.big('Biography'),
         const SizedBox(height: SysSize.paddingMedium),
-        Container(
-          padding: const EdgeInsets.all(SysSize.paddingSmall),
-          decoration: BoxDecoration(
-            color: AppColor.whiteBorderColor,
-            borderRadius: BorderRadius.circular(SysSize.paddingMedium),
-            border: Border.all(color: AppColor.whiteAccentColor),
-          ),
-          child: StText.small(
-            controller.personDetail?.biography,
+        if (controller.personDetail?.biography?.isEmpty ?? true)
+          StText.small(
+            'This person do not have any biography.',
             style: StandardTextStyle.small.copyWith(
               color: AppColor.whitePrimaryColor.withOpacity(0.8),
             ),
+          )
+        else
+          Container(
+            padding: const EdgeInsets.all(SysSize.paddingSmall),
+            decoration: BoxDecoration(
+              color: AppColor.whiteBorderColor,
+              borderRadius: BorderRadius.circular(SysSize.paddingMedium),
+              border: Border.all(color: AppColor.whiteAccentColor),
+            ),
+            child: StText.small(
+              controller.personDetail?.biography,
+              style: StandardTextStyle.small.copyWith(
+                color: AppColor.whitePrimaryColor.withOpacity(0.8),
+              ),
+            ),
           ),
-        ),
         const SizedBox(height: SysSize.paddingHuge),
       ],
     );
@@ -251,27 +261,31 @@ class PersonDetailView extends StatelessWidget {
 
   Widget _buildMovieCreditList(BuildContext context) {
     return SizedBox(
-      height: AppService().appScreenSize.height * 0.4,
+      height: 350,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const StText.big('Movie Cast'),
           const SizedBox(height: SysSize.paddingMedium),
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.movieCreditsList.length,
-              itemBuilder: (BuildContext context, int index) {
-                final PersonMovieCast cast = controller.movieCreditsList[index];
-                return MovieCreditItem(
-                  cast: cast,
-                  onDetailTap: () => controller.goToMovieDetail(
-                    MovieInfo.fromJson(cast.toJson()),
-                  ),
-                );
-              },
+          if (controller.movieCreditsList.isEmpty)
+            EmptyStateView(onRetry: controller.onCreditRetry)
+          else
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.movieCreditsList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final PersonMovieCast cast =
+                      controller.movieCreditsList[index];
+                  return MovieCreditItem(
+                    cast: cast,
+                    onDetailTap: () => controller.goToMovieDetail(
+                      MovieInfo.fromJson(cast.toJson()),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
           const SizedBox(height: SysSize.paddingHuge),
         ],
       ),

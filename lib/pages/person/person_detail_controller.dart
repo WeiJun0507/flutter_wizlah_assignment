@@ -92,4 +92,9 @@ class PersonDetailController extends GetxController {
 
   /// Navigate to Movie detail
   void goToMovieDetail(MovieInfo info) => Routes.toMovieDetail(info);
+
+  void onCreditRetry() async {
+    await _getPersonMovieCredit(info!.id!);
+    update(['person_detail_view'].toList());
+  }
 }

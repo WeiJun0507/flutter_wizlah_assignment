@@ -34,7 +34,8 @@ class SkeletonMovieDetailCasting extends StatelessWidget {
                       ),
                       width: 80.0,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: SysSize.paddingMedium),
+                        horizontal: SysSize.paddingMedium,
+                      ),
                       child: Column(
                         children: <Widget>[
                           Expanded(
@@ -79,7 +80,7 @@ class SkeletonMovieDetailCasting extends StatelessWidget {
             const SizedBox(height: SysSize.paddingMedium),
             const SkeletonMovieCover(),
           ],
-        )
+        ),
       ],
     );
   }

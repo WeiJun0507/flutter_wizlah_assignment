@@ -21,22 +21,28 @@ class MovieCover extends StatelessWidget {
       onTap: onDetailTap?.call,
       child: Container(
         padding: const EdgeInsets.only(right: SysSize.normal),
-        width: AppService().appScreenSize.width * 0.4,
+        width: AppService().appScreenSize.width * 0.35,
         child: Column(
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(SysSize.paddingBig),
               child: Hero(
                 tag: info.id.toString(),
-                child: ExtendedImage.network(
-                  Images.getUrl(
-                    info.posterPath,
-                    size: Images.posterMedium,
-                  ),
-                  width: AppService().appScreenSize.width * 0.4,
-                  height: AppService().appScreenSize.height * 0.3,
-                  fit: BoxFit.fitHeight,
-                ),
+                child: (info.posterPath?.isEmpty ?? true)
+                    ? Image.asset(
+                        'assets/image/tmdb_loading_placeholder.png',
+                        height: 200,
+                        width: AppService().appScreenSize.width * 0.35,
+                        fit: BoxFit.cover,
+                      )
+                    : ExtendedImage.network(
+                        Images.getUrl(
+                          info.posterPath,
+                          size: Images.posterMedium,
+                        ),
+                        height: 200,
+                        fit: BoxFit.fitHeight,
+                      ),
               ),
             ),
             const SizedBox(height: SysSize.paddingMedium),

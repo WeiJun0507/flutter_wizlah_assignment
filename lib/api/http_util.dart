@@ -38,7 +38,7 @@ class HttpUtil {
     } else {
       effectiveHeaders = <String, dynamic>{
         ..._dioUtil.options.headers,
-        ...headers
+        ...headers,
       };
     }
 
@@ -181,13 +181,15 @@ class DioUtil {
   DioUtil._init() {
     _dio = Dio();
     _dio!.options = options;
-    _dio!.interceptors.add(PrettyDioLogger(
-      requestHeader: false,
-      requestBody: false,
-      responseBody: false,
-      responseHeader: false,
-      error: true,
-    ));
+    _dio!.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: false,
+        requestBody: false,
+        responseBody: false,
+        responseHeader: false,
+        error: true,
+      ),
+    );
   }
 
   static BaseOptions getDefOptions() {

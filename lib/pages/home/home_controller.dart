@@ -23,7 +23,7 @@ class HomeController extends GetxController
   /// Search Result
   final double _scrollThreshold = 400;
   ScrollController searchScrollController = ScrollController();
-  bool isSearching = false;
+  RxBool isSearching = false.obs;
   int searchPage = 1;
   RxList<MovieInfo> searchMovieList = <MovieInfo>[].obs;
 
@@ -103,13 +103,16 @@ class HomeController extends GetxController
   /// Fetch Remote movie data
   Future<void> initMovieListAsync() async {
     isLoading.value = true;
-    await getPlayingMovieList();
-    await getTopRatedMovieList();
-    await getUpcomingMovieList();
-    await getPopularMovieList();
-    isLoading.value = false;
+    try {
+      await getPlayingMovieList();
+      await getTopRatedMovieList();
+      await getUpcomingMovieList();
+      await getPopularMovieList();
+    } finally {
+      isLoading.value = false;
 
-    update(['now_playing', 'for_you'].toList());
+      update(['now_playing', 'for_you'].toList());
+    }
   }
 
   Future<void> getPlayingMovieList() async {
@@ -155,31 +158,38 @@ class HomeController extends GetxController
   Future<void> getPopularPersonList({int page = 1}) async {
     personFetchTimestamp = DateTime.now().millisecondsSinceEpoch;
 
-    List<PersonInfo> infoResults = await PersonManager().getRemotePersonInfo(
-      page: page,
-    );
+    try {
+      List<PersonInfo> infoResults = await PersonManager().getRemotePersonInfo(
+        page: page,
+      );
 
-    if (page != 1) {
-      popularPersonList.addAll(infoResults);
-    } else {
-      popularPersonList.assignAll(infoResults);
+      if (page != 1) {
+        popularPersonList.addAll(infoResults);
+      } else {
+        popularPersonList.assignAll(infoResults);
+      }
+    } finally {
+      isPersonLoading = false;
     }
-
-    isPersonLoading = false;
   }
 
   void getSearchResult({int page = 1}) async {
-    List<MovieInfo> searchResults = await MovieManager().getSearchedMovieResult(
-      searchController.text.trim(),
-      page: page,
-    );
+    isSearching.value = true;
+    try {
+      List<MovieInfo> searchResults =
+          await MovieManager().getSearchedMovieResult(
+        searchController.text.trim(),
+        page: page,
+      );
 
-    if (page != 1) {
-      searchMovieList.addAll(searchResults);
-    } else {
-      searchMovieList.assignAll(searchResults);
+      if (page != 1) {
+        searchMovieList.addAll(searchResults);
+      } else {
+        searchMovieList.assignAll(searchResults);
+      }
+    } finally {
+      isSearching.value = false;
     }
-    isSearching = false;
   }
 
   /// Navigate to Movie detail
@@ -197,6 +207,7 @@ class HomeController extends GetxController
       return;
     }
 
+    isSearching.value = true;
     showSearchResult.value = true;
     _debounce.run(() {
       getSearchResult();
@@ -205,10 +216,9 @@ class HomeController extends GetxController
 
   void onSearchScrollListener() {
     // fetch more result from search
-    if (!isSearching &&
+    if (!isSearching.value &&
         searchScrollController.offset + _scrollThreshold >
             searchScrollController.position.maxScrollExtent) {
-      isSearching = true;
       searchPage += 1;
       getSearchResult(page: searchPage);
     }
@@ -245,5 +255,24 @@ class HomeController extends GetxController
     }
 
     update(['home'].toList());
+  }
+
+  void onMovieRetry() async {
+    isLoading.value = true;
+    switch (currentTabIdx) {
+      case 1:
+        await getTopRatedMovieList();
+        break;
+      case 2:
+        await getUpcomingMovieList();
+        break;
+      case 0:
+      default:
+        await getPopularMovieList();
+        break;
+    }
+
+    isLoading.value = false;
+    update(['for_you'].toList());
   }
 }

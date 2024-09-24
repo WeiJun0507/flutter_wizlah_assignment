@@ -18,19 +18,23 @@ class MovieApi {
     int page = 1,
     String? region,
   }) async {
-    String urlPath = '$_prefix/upcoming';
+    try {
+      String urlPath = '$_prefix/upcoming';
 
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-        'page': page.toString(),
-        if (region != null) 'region': region,
-      },
-    );
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+          'page': page.toString(),
+          if (region != null) 'region': region,
+        },
+      );
 
-    return MovieListResponse.fromJson(res).results ?? [];
+      return MovieListResponse.fromJson(res).results ?? <MovieInfo>[];
+    } catch (e) {
+      return <MovieInfo>[];
+    }
   }
 
   // get movie now playing list
@@ -39,19 +43,23 @@ class MovieApi {
     int page = 1,
     String? region,
   }) async {
-    String urlPath = '$_prefix/now_playing';
+    try {
+      String urlPath = '$_prefix/now_playing';
 
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-        'page': page.toString(),
-        if (region != null) 'region': region,
-      },
-    );
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+          'page': page.toString(),
+          if (region != null) 'region': region,
+        },
+      );
 
-    return MovieListResponse.fromJson(res).results ?? [];
+      return MovieListResponse.fromJson(res).results ?? <MovieInfo>[];
+    } catch (e) {
+      return <MovieInfo>[];
+    }
   }
 
   // get movie popular] list
@@ -60,19 +68,23 @@ class MovieApi {
     int page = 1,
     String? region,
   }) async {
-    String urlPath = '$_prefix/popular';
+    try {
+      String urlPath = '$_prefix/popular';
 
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-        'page': page.toString(),
-        if (region != null) 'region': region,
-      },
-    );
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+          'page': page.toString(),
+          if (region != null) 'region': region,
+        },
+      );
 
-    return MovieListResponse.fromJson(res).results ?? [];
+      return MovieListResponse.fromJson(res).results ?? <MovieInfo>[];
+    } catch (e) {
+      return <MovieInfo>[];
+    }
   }
 
   // get movie top rated list
@@ -81,19 +93,23 @@ class MovieApi {
     int page = 1,
     String? region,
   }) async {
-    String urlPath = '$_prefix/top_rated';
+    try {
+      String urlPath = '$_prefix/top_rated';
 
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-        'page': page.toString(),
-        if (region != null) 'region': region,
-      },
-    );
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+          'page': page.toString(),
+          if (region != null) 'region': region,
+        },
+      );
 
-    return MovieListResponse.fromJson(res).results ?? [];
+      return MovieListResponse.fromJson(res).results ?? <MovieInfo>[];
+    } catch (e) {
+      return <MovieInfo>[];
+    }
   }
 
   static Future<MovieDetail?> getMovieDetail(
@@ -126,41 +142,49 @@ class MovieApi {
     String? region,
     String? year,
   }) async {
-    String urlPath = 'search/$_prefix';
+    try {
+      String urlPath = 'search/$_prefix';
 
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'query': query,
-        'include_adult': includeAdult ? 'true' : 'false',
-        'language': language,
-        if (primaryReleaseYear != null)
-          'primary_release_year': primaryReleaseYear,
-        'page': page.toString(),
-        if (region != null) 'region': region,
-        if (year != null) 'year': year,
-      },
-    );
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'query': query,
+          'include_adult': includeAdult ? 'true' : 'false',
+          'language': language,
+          if (primaryReleaseYear != null)
+            'primary_release_year': primaryReleaseYear,
+          'page': page.toString(),
+          if (region != null) 'region': region,
+          if (year != null) 'year': year,
+        },
+      );
 
-    return MovieListResponse.fromJson(res).results ?? [];
+      return MovieListResponse.fromJson(res).results ?? <MovieInfo>[];
+    } catch (e) {
+      return <MovieInfo>[];
+    }
   }
 
   static Future<List<PersonInfo>> getMovieCastingList(
     int movieId, {
     String language = 'en-US',
   }) async {
-    String urlPath = '$_prefix/$movieId/credits';
+    try {
+      String urlPath = '$_prefix/$movieId/credits';
 
-    final Map<String, dynamic> res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-      },
-    );
+      final Map<String, dynamic> res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+        },
+      );
 
-    return MovieCastResponse.fromJson(res).cast ?? [];
+      return MovieCastResponse.fromJson(res).cast ?? [];
+    } catch (e) {
+      return [];
+    }
   }
 
   static Future<List<MovieInfo>> getRecommendationMovie(
@@ -168,23 +192,27 @@ class MovieApi {
     String language = 'en-US',
     int page = 1,
   }) async {
-    String urlPath = '$_prefix/$movieId/recommendations';
+    try {
+      String urlPath = '$_prefix/$movieId/recommendations';
 
-    final Map<String, dynamic> res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-        'page': page.toString(),
-      },
-    );
+      final Map<String, dynamic> res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+          'page': page.toString(),
+        },
+      );
 
-    if (res.containsKey('results')) {
-      res['results'] =
-          (res['results'] as List).getRange(0, min(res['results'].length, 10));
+      if (res.containsKey('results')) {
+        res['results'] = (res['results'] as List)
+            .getRange(0, min(res['results'].length, 10));
+      }
+
+      return MovieListResponse.fromJson(res).results ?? <MovieInfo>[];
+    } catch (e) {
+      return <MovieInfo>[];
     }
-
-    return MovieListResponse.fromJson(res).results ?? [];
   }
 
   static Future<List<MovieInfo>> getSimilarMovie(
@@ -192,18 +220,22 @@ class MovieApi {
     String language = 'en-US',
     int page = 1,
   }) async {
-    String urlPath = '$_prefix/$movieId/similar';
+    try {
+      String urlPath = '$_prefix/$movieId/similar';
 
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-        'page': page.toString(),
-      },
-    );
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+          'page': page.toString(),
+        },
+      );
 
-    return MovieListResponse.fromJson(res).results ?? [];
+      return MovieListResponse.fromJson(res).results ?? <MovieInfo>[];
+    } catch (e) {
+      return <MovieInfo>[];
+    }
   }
 
   static Future<List<MovieReview>> getMovieReviews(
@@ -211,17 +243,21 @@ class MovieApi {
     String language = 'en-US',
     int page = 1,
   }) async {
-    String urlPath = '$_prefix/$movieId/reviews';
+    try {
+      String urlPath = '$_prefix/$movieId/reviews';
 
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-        'page': page.toString(),
-      },
-    );
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+          'page': page.toString(),
+        },
+      );
 
-    return MovieReviewResponse.fromJson(res).results ?? [];
+      return MovieReviewResponse.fromJson(res).results ?? <MovieReview>[];
+    } catch (e) {
+      return <MovieReview>[];
+    }
   }
 }

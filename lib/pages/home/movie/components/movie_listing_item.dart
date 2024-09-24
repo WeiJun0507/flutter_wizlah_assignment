@@ -26,14 +26,21 @@ class MovieListingItem extends StatelessWidget {
             if (info.backdropPath?.isNotEmpty ?? false)
               Hero(
                 tag: info.id.toString(),
-                child: ExtendedImage.network(
-                  Images.getUrl(
-                    info.backdropPath,
-                    size: Images.backdropHighest,
-                  ),
-                  constraints: constraints,
-                  fit: BoxFit.cover,
-                ),
+                child: (info.backdropPath?.isEmpty ?? true)
+                    ? Image.asset(
+                        'assets/image/tmdb_loading_placeholder.png',
+                        width: constraints.maxWidth,
+                        height: constraints.maxHeight,
+                        fit: BoxFit.cover,
+                      )
+                    : ExtendedImage.network(
+                        Images.getUrl(
+                          info.backdropPath,
+                          size: Images.backdropHighest,
+                        ),
+                        constraints: constraints,
+                        fit: BoxFit.cover,
+                      ),
               ),
             // top gradient
             Positioned(
@@ -163,7 +170,7 @@ class MovieListingItem extends StatelessWidget {
                               ),
                               child: StText.small(info.genreTitle[index]),
                             );
-                          })
+                          }),
                         ],
                       ),
                     if (info.genreIds?.isNotEmpty ?? false)
@@ -191,7 +198,7 @@ class MovieListingItem extends StatelessWidget {
                         ),
                         child: const StText.normal('Details'),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

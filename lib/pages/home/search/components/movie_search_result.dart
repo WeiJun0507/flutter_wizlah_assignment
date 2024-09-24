@@ -34,15 +34,22 @@ class MovieSearchResult extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ExtendedImage.network(
-              Images.getUrl(
-                info.posterPath,
-                size: Images.posterMedium,
-              ),
-              width: AppService().appScreenSize.width * 0.3,
-              height: AppService().appScreenSize.height * 0.2,
-              fit: BoxFit.cover,
-            ),
+            (info.posterPath?.isEmpty ?? true)
+                ? Image.asset(
+                    'assets/image/tmdb_loading_placeholder.png',
+                    height: 200,
+                    width: AppService().appScreenSize.width * 0.35,
+                    fit: BoxFit.cover,
+                  )
+                : ExtendedImage.network(
+                    Images.getUrl(
+                      info.posterPath,
+                      size: Images.posterMedium,
+                    ),
+                    width: AppService().appScreenSize.width * 0.3,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  ),
             const SizedBox(width: SysSize.paddingBig),
             Expanded(
               child: Column(
@@ -63,7 +70,7 @@ class MovieSearchResult extends StatelessWidget {
                     const SizedBox(height: SysSize.paddingMedium),
                   if (info.genreIds?.isNotEmpty ?? false)
                     StText.small(
-                      'Type: ${info.genreTitle.fold('', (r, e) => '${r.isNotEmpty ? "$r," : "$r"} $e')}',
+                      'Type: ${info.genreTitle.fold('', (r, e) => '${r.isNotEmpty ? "$r," : r} $e')}',
                       style: StandardTextStyle.small.copyWith(
                         fontSize: SysSize.tiny,
                         color: AppColor.whitePrimaryColor.withOpacity(0.8),

@@ -41,15 +41,22 @@ class PersonCover extends StatelessWidget {
               ),
               child: Hero(
                 tag: info.id.toString(),
-                child: ExtendedImage.network(
-                  Images.getUrl(
-                    info.profilePath,
-                    size: Images.profileMedium,
-                  ),
-                  width: AppService().appScreenSize.width * 0.3,
-                  height: AppService().appScreenSize.height * 0.2,
-                  fit: BoxFit.cover,
-                ),
+                child: (info.profilePath?.isEmpty ?? true)
+                    ? Image.asset(
+                        'assets/image/tmdb_loading_placeholder.png',
+                        height: 200,
+                        width: AppService().appScreenSize.width * 0.35,
+                        fit: BoxFit.cover,
+                      )
+                    : ExtendedImage.network(
+                        Images.getUrl(
+                          info.profilePath,
+                          size: Images.profileMedium,
+                        ),
+                        width: AppService().appScreenSize.width * 0.3,
+                        height: 150,
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             const SizedBox(
@@ -73,7 +80,7 @@ class PersonCover extends StatelessWidget {
                     _buildKnownInfo(context),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -55,17 +55,23 @@ class MovieReviewItem extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              if (info.authorDetails != null)
-                ExtendedImage.network(
-                  Images.getUrl(
-                    info.authorDetails?.avatarPath,
-                    size: Images.profileSmallest,
-                  ),
-                  width: 30.0,
-                  height: 30.0,
-                  fit: BoxFit.cover,
-                  shape: BoxShape.circle,
-                ),
+              (info.authorDetails?.avatarPath?.isEmpty ?? true)
+                  ? Image.asset(
+                      'assets/image/tmdb_loading_placeholder.png',
+                      height: 30.0,
+                      width: 30.0,
+                      fit: BoxFit.cover,
+                    )
+                  : ExtendedImage.network(
+                      Images.getUrl(
+                        info.authorDetails?.avatarPath,
+                        size: Images.profileSmallest,
+                      ),
+                      width: 30.0,
+                      height: 30.0,
+                      fit: BoxFit.cover,
+                      shape: BoxShape.circle,
+                    ),
               if (info.authorDetails != null)
                 const SizedBox(width: SysSize.paddingMedium),
               Expanded(

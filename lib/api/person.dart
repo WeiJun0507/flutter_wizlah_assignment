@@ -13,18 +13,22 @@ class PersonApi {
     String language = 'en-US',
     int page = 1,
   }) async {
-    String urlPath = '$_prefix/popular';
+    try {
+      String urlPath = '$_prefix/popular';
 
-    final res = await HttpUtil().fetch(
-      FetchType.get,
-      url: urlPath,
-      queryParameters: {
-        'language': language,
-        'page': page.toString(),
-      },
-    );
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+          'page': page.toString(),
+        },
+      );
 
-    return PersonListResponse.fromJson(res).results ?? [];
+      return PersonListResponse.fromJson(res).results ?? <PersonInfo>[];
+    } catch (e) {
+      return <PersonInfo>[];
+    }
   }
 
   static Future<PersonDetail?> getPersonDetail(int personId) async {
@@ -43,13 +47,21 @@ class PersonApi {
     int personId, {
     String language = 'en-US',
   }) async {
-    String urlPath = '$_prefix/$personId/movie_credits';
+    try {
+      String urlPath = '$_prefix/$personId/movie_credits';
 
-    final res =
-        await HttpUtil().fetch(FetchType.get, url: urlPath, queryParameters: {
-      'language': language,
-    });
+      final res = await HttpUtil().fetch(
+        FetchType.get,
+        url: urlPath,
+        queryParameters: {
+          'language': language,
+        },
+      );
 
-    return PersonMovieCreditResponse.fromJson(res).cast ?? [];
+      return PersonMovieCreditResponse.fromJson(res).cast ??
+          <PersonMovieCast>[];
+    } catch (e) {
+      return <PersonMovieCast>[];
+    }
   }
 }

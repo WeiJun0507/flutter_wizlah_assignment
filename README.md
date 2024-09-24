@@ -53,7 +53,6 @@ This project is a starting point for a Flutter application.
 
 # CHANGELOG 15 / 9 / 2024
 
-
 ### *UI*
 
 1. Complete Person Detail UI
@@ -73,3 +72,16 @@ This project is a starting point for a Flutter application.
 ## **Video Demo**
 
 [Wizlah Assignment Demo.webm](https://github.com/user-attachments/assets/b5e885dd-993b-434c-9c5f-2f78d10c271f)
+
+# CHANGELOG 24 / 9 / 2024
+
+### *UI*
+
+1. Manage empty list placeholder and support retry.
+
+### *Logic*
+
+1. Add try catch for every API endpoint invoke.
+2. Add an image placeholder for every image that do not have a path or do not have an image.
+
+

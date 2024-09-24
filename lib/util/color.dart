@@ -14,5 +14,5 @@ class AppColor {
   static Color themeColor = const Color(0xFF4454BF);
   static Color accentColor = const Color(0xFF303C92);
 
-  static const warning = const Color(0xFFCA2020);
+  static Color warning = const Color(0xFFCA2020);
 }
