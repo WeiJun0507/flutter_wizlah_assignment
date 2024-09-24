@@ -8,6 +8,8 @@ import 'package:wizlah_assignment/model/response/person_movie_credit_response.da
 class PersonApi {
   static const String _prefix = 'person';
 
+  PersonApi._();
+
   // get movie upcoming list
   static Future<List<PersonInfo>> getPopularPerson({
     String language = 'en-US',

@@ -12,6 +12,8 @@ import 'package:wizlah_assignment/model/response/movie_review_response.dart';
 class MovieApi {
   static const String _prefix = 'movie';
 
+  MovieApi._();
+
   // get movie upcoming list
   static Future<List<MovieInfo>> getUpcomingMovie({
     String language = 'en-US',

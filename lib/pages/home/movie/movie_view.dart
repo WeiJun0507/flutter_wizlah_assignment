@@ -12,7 +12,7 @@ import 'package:wizlah_assignment/service/app_service.dart';
 import 'package:wizlah_assignment/util/color.dart';
 import 'package:wizlah_assignment/util/text_style.dart';
 
-class MovieView extends GetView<HomeController> {
+class MovieView extends StatelessWidget {
   const MovieView({super.key});
 
   @override
@@ -25,7 +25,7 @@ class MovieView extends GetView<HomeController> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 12.0),
           child: Hero(
-            tag: 'app_logo',
+            tag: HomeController.appLogo,
             child: SvgPicture.asset(
               'assets/svg/tmdb_app_256.svg',
               width: 48.0,
@@ -34,9 +34,9 @@ class MovieView extends GetView<HomeController> {
         ),
       ),
       body: GetBuilder(
-        id: 'main_view',
-        init: controller,
-        builder: (_) {
+        id: HomeController.movieMainView,
+        init: Get.find<HomeController>(),
+        builder: (HomeController controller) {
           if (controller.state == HomeLoadingState.isLoading) {
             return Center(
               child: CircularProgressIndicator(
@@ -52,10 +52,9 @@ class MovieView extends GetView<HomeController> {
                 // Now playing PageView
                 SizedBox(
                   height: AppService().appScreenSize.height * 0.6,
-                  child: GetBuilder(
-                    id: 'now_playing',
-                    init: controller,
-                    builder: (_) {
+                  child: GetBuilder<HomeController>(
+                    id: HomeController.nowPlaying,
+                    builder: (HomeController controller) {
                       return PageView.builder(
                         physics: const ClampingScrollPhysics(),
                         itemCount: controller.nowPlayingMovieList.length,
@@ -73,7 +72,7 @@ class MovieView extends GetView<HomeController> {
                 ),
 
                 // For you
-                _buildForYou(context),
+                _buildForYou(context, controller),
               ],
             ),
           );
@@ -82,7 +81,7 @@ class MovieView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildForYou(BuildContext context) {
+  Widget _buildForYou(BuildContext context, HomeController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: SysSize.big,
@@ -124,10 +123,9 @@ class MovieView extends GetView<HomeController> {
               duration: const Duration(milliseconds: 300),
               child: controller.isLoading.value
                   ? const SkeletonMovieCover()
-                  : GetBuilder(
-                      id: 'for_you',
-                      init: controller,
-                      builder: (_) {
+                  : GetBuilder<HomeController>(
+                      id: HomeController.forYou,
+                      builder: (HomeController controller) {
                         List<MovieInfo> movieList = [];
                         switch (controller.currentTabIdx) {
                           case 1:

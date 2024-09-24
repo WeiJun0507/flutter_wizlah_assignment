@@ -1,24 +1,26 @@
 import 'dart:convert';
 
 import 'package:wizlah_assignment/api/person.dart';
+import 'package:wizlah_assignment/global/base_manager.dart';
 import 'package:wizlah_assignment/model/person/person_detail.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
 import 'package:wizlah_assignment/model/person/person_movie_cast.dart';
 import 'package:wizlah_assignment/service/local_storage_service.dart';
 
-class PersonManager {
+class PersonManager implements BaseManager {
   static final PersonManager _instance = PersonManager._internal();
 
   factory PersonManager() => _instance;
 
   PersonManager._internal();
 
+  @override
   void init() async {}
 
   Future<List<PersonInfo>> getRemotePersonInfo({
     int page = 1,
   }) async {
-    List<PersonInfo> latestPopularList = await PersonApi.getPopularPerson(
+    final List<PersonInfo> latestPopularList = await PersonApi.getPopularPerson(
       page: page,
     );
 

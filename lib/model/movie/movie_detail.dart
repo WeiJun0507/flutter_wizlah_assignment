@@ -58,6 +58,9 @@ class MovieDetail {
   List<String?> get genreTitle =>
       genres?.map<String?>((e) => e.name).toList() ?? [];
 
+  String get movieDetailSubtitle =>
+      '${runtime ?? "-"} minutes · ${releaseDate ?? "-"} ${(originCountry?.isNotEmpty ?? false) ? "· ${originCountry!.first}" : ""} · ${status ?? ''}';
+
   MovieDetail.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];

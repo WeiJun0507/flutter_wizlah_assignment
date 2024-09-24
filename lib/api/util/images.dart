@@ -25,10 +25,7 @@ class Images {
   static const String profileMedium = 'w185';
   static const String profileHighest = 'h632';
 
-  // still size
-  static const String STILL_SIZE_LOWEST = 'w92';
-  static const String STILL_SIZE_MEDIUM = 'w185';
-  static const String STILL_SIZE_HIGHEST = 'w300';
+  Images._();
 
   static String getUrl(
     String? imagePath, {

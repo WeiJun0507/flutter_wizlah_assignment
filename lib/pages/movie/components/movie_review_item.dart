@@ -85,9 +85,7 @@ class MovieReviewItem extends StatelessWidget {
               Row(
                 children: <Widget>[
                   const Icon(Icons.star, color: Colors.yellow, size: 24.0),
-                  StText.small(
-                    '${info.authorDetails?.rating.toString() ?? "10.0"} / 10.0',
-                  ),
+                  StText.small(info.authorDetails?.ratingTitle),
                 ],
               ),
             ],

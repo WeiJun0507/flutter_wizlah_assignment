@@ -84,4 +84,15 @@ This project is a starting point for a Flutter application.
 1. Add try catch for every API endpoint invoke.
 2. Add an image placeholder for every image that do not have a path or do not have an image.
 
+# CHANGELOG 24 / 9 / 2024
+
+### *UI*
+
+1. Manage empty list placeholder and support retry.
+
+### *Logic*
+
+1. Code refines.
+2. Add warning lint.
+
 

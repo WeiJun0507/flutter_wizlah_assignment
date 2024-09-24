@@ -33,10 +33,17 @@ class MovieDetailView extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: AppColor.primaryColor,
-      body: GetBuilder(
-        id: 'movie_detail_view',
-        init: controller,
+      body: GetBuilder<MovieDetailController>(
+        id: MovieDetailController.movieDetailView,
+        tag: tag,
         builder: (_) {
+          if (controller.info == null) {
+            return Align(
+              alignment: Alignment.center,
+              child: EmptyStateView(onRetry: Get.back),
+            );
+          }
+
           return NestedScrollView(
             controller: controller.detailController,
             headerSliverBuilder:
@@ -61,7 +68,7 @@ class MovieDetailView extends StatelessWidget {
                     () => Opacity(
                       opacity: controller.appBarOpacity.value,
                       child: StText.normal(
-                        controller.info?.title ?? 'Movie Detail',
+                        controller.info!.title ?? 'Movie Detail',
                       ),
                     ),
                   ),
@@ -73,9 +80,9 @@ class MovieDetailView extends StatelessWidget {
                       child: Stack(
                         children: <Widget>[
                           Hero(
-                            tag: controller.info?.id.toString() ?? '',
+                            tag: controller.info!.id.toString(),
                             child:
-                                (controller.info?.backdropPath?.isEmpty ?? true)
+                                (controller.info!.backdropPath?.isEmpty ?? true)
                                     ? Image.asset(
                                         'assets/image/tmdb_loading_placeholder.png',
                                         height: 200,
@@ -104,14 +111,14 @@ class MovieDetailView extends StatelessWidget {
                                 gradient: LinearGradient(
                                   begin: Alignment.bottomCenter,
                                   end: Alignment.topCenter,
-                                  colors: [
+                                  colors: <Color>[
                                     AppColor.primaryColor,
                                     AppColor.primaryColor.withOpacity(0.8),
                                     AppColor.secondaryColor,
                                     AppColor.blackAccentColor,
                                     Colors.transparent,
                                   ],
-                                  stops: const [
+                                  stops: const <double>[
                                     0.1,
                                     0.4,
                                     0.6,
@@ -185,7 +192,7 @@ class MovieDetailView extends StatelessWidget {
                     StText.big(controller.movieDetail?.title),
                     const SizedBox(height: SysSize.paddingMedium),
                     StText.small(
-                      '${controller.movieDetail?.runtime ?? "-"} minutes · ${controller.info?.releaseDate ?? "-"} ${(controller.movieDetail?.originCountry?.isNotEmpty ?? false) ? "· ${controller.movieDetail?.originCountry!.first}" : ""} · ${controller.movieDetail?.status ?? ''}',
+                      controller.movieDetail?.movieDetailSubtitle,
                       style: StandardTextStyle.small.copyWith(
                         color: AppColor.whiteSecondaryColor,
                       ),
@@ -304,7 +311,7 @@ class MovieDetailView extends StatelessWidget {
   Widget _buildActorView(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: SysSize.paddingHuge),
-      height: AppService().appScreenSize.height * 0.2,
+      height: 160.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -341,7 +348,7 @@ class MovieDetailView extends StatelessWidget {
           const StText.big('Reviews'),
           const SizedBox(height: SysSize.paddingBig),
           if (controller.movieReviewList.isEmpty)
-            EmptyStateView(onRetry: controller.onReviewRetry)
+            Expanded(child: EmptyStateView(onRetry: controller.onReviewRetry))
           else
             Expanded(
               child: ListView.builder(
@@ -368,7 +375,9 @@ class MovieDetailView extends StatelessWidget {
           const StText.big('Recommend for you'),
           const SizedBox(height: SysSize.paddingBig),
           if (controller.recommendationMovieList.isEmpty)
-            EmptyStateView(onRetry: controller.onRecommendRetry)
+            Expanded(
+              child: EmptyStateView(onRetry: controller.onRecommendRetry),
+            )
           else
             Expanded(
               child: ListView.builder(

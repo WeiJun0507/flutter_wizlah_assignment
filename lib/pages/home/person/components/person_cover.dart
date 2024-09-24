@@ -106,7 +106,7 @@ class PersonCover extends StatelessWidget {
                 color: AppColor.whiteBorderColor,
               ),
               child: StText.small(
-                '${i + 1}. ${knownFor.title!.substring(0, min(10, knownFor.title!.length))} · ${knownFor.mediaType}(${knownFor.releaseDate})',
+                '${i + 1}. ${knownFor.personTitle}',
                 style: StandardTextStyle.small.copyWith(
                   fontSize: SysSize.tiny,
                   color: AppColor.whitePrimaryColor.withOpacity(0.8),

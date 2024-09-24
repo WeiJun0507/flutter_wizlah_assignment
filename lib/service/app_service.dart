@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wizlah_assignment/service/base_service.dart';
 
-class AppService {
+class AppService implements BaseService {
   static final AppService _instance = AppService._internal();
 
   factory AppService() => _instance;
@@ -11,5 +12,6 @@ class AppService {
   Size appScreenSize = Size.zero;
   EdgeInsets appViewPadding = EdgeInsets.zero;
 
+  @override
   Future<void> init() async {}
 }

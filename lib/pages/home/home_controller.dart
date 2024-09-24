@@ -10,6 +10,15 @@ import 'package:wizlah_assignment/util/debounce.dart';
 
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  // UI enum
+  static const String home = 'home';
+  static const String nowPlaying = 'nowPlaying';
+  static const String forYou = 'forYou';
+  static const String movieMainView = 'movieMainView';
+
+  // Hero Image Tag
+  static const String appLogo = 'appLogo';
+
   // Variable
 
   /// Movie Result
@@ -111,7 +120,7 @@ class HomeController extends GetxController
     } finally {
       isLoading.value = false;
 
-      update(['now_playing', 'for_you'].toList());
+      update([nowPlaying, forYou]);
     }
   }
 
@@ -226,7 +235,6 @@ class HomeController extends GetxController
 
   void onPersonScrollListener() {
     // fetch more result from person
-    // fetch more result from search
     if (!isPersonLoading &&
         personScrollController.offset + _scrollThreshold >
             personScrollController.position.maxScrollExtent) {
@@ -242,7 +250,7 @@ class HomeController extends GetxController
 
     forYouScrollController.jumpTo(0.0);
 
-    update(['for_you'].toList());
+    update([forYou]);
   }
 
   void onBottomNavTabChanged(int index) {
@@ -254,7 +262,7 @@ class HomeController extends GetxController
       getPopularPersonList();
     }
 
-    update(['home'].toList());
+    update([home]);
   }
 
   void onMovieRetry() async {
@@ -273,6 +281,6 @@ class HomeController extends GetxController
     }
 
     isLoading.value = false;
-    update(['for_you'].toList());
+    update([forYou]);
   }
 }

@@ -26,10 +26,17 @@ class PersonDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
-      id: 'person_detail_view',
-      init: controller,
+    return GetBuilder<PersonDetailController>(
+      id: PersonDetailController.personDetailView,
+      tag: tag,
       builder: (_) {
+        if (controller.info == null) {
+          return Align(
+            alignment: Alignment.center,
+            child: EmptyStateView(onRetry: Get.back),
+          );
+        }
+
         return Scaffold(
           extendBodyBehindAppBar: true,
           backgroundColor: AppColor.primaryColor,
@@ -81,15 +88,25 @@ class PersonDetailView extends StatelessWidget {
                         children: <Widget>[
                           Hero(
                             tag: controller.info?.id.toString() ?? '',
-                            child: ExtendedImage.network(
-                              Images.getUrl(
-                                controller.info?.profilePath,
-                                size: Images.profileHighest,
-                              ),
-                              width: AppService().appScreenSize.width,
-                              height: AppService().appScreenSize.height * 0.6,
-                              fit: BoxFit.cover,
-                            ),
+                            child: (controller.info?.profilePath?.isEmpty ??
+                                    true)
+                                ? Image.asset(
+                                    'assets/image/tmdb_loading_placeholder.png',
+                                    width: AppService().appScreenSize.width,
+                                    height:
+                                        AppService().appScreenSize.height * 0.6,
+                                    fit: BoxFit.cover,
+                                  )
+                                : ExtendedImage.network(
+                                    Images.getUrl(
+                                      controller.info?.profilePath,
+                                      size: Images.profileHighest,
+                                    ),
+                                    width: AppService().appScreenSize.width,
+                                    height:
+                                        AppService().appScreenSize.height * 0.6,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
 
                           // bottom gradient
@@ -136,7 +153,7 @@ class PersonDetailView extends StatelessWidget {
                                   StText.big(controller.info?.name),
                                   const SizedBox(height: SysSize.paddingMedium),
                                   StText.small(
-                                    '${controller.info?.genderString} · ${controller.personDetail?.birthday ?? "-"} · ${controller.personDetail?.placeOfBirth ?? ""}',
+                                    controller.personDetail?.personSubTitle,
                                     style: StandardTextStyle.small.copyWith(
                                       color: AppColor.whiteSecondaryColor,
                                     ),

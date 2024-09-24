@@ -34,63 +34,45 @@ class MovieCreditItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ExtendedImage.network(
-              Images.getUrl(
-                cast.backdropPath,
-                size: Images.backdropMedium,
-              ),
-              width: AppService().appScreenSize.width * 0.7,
-              height: AppService().appScreenSize.height * 0.2,
-              fit: BoxFit.cover,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: SysSize.paddingBig,
-                vertical: SysSize.paddingMedium,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  StText.normal(cast.title),
-                  const SizedBox(height: SysSize.paddingSmall),
-
-                  StText.small('Casting: ${cast.character}'),
-
-                  // Genre Listing
-                  if (info.genreTitle.isNotEmpty)
+            (cast.backdropPath?.isEmpty ?? true)
+                ? Image.asset(
+                    'assets/image/tmdb_loading_placeholder.png',
+                    width: AppService().appScreenSize.width * 0.7,
+                    height: AppService().appScreenSize.height * 0.2,
+                    fit: BoxFit.cover,
+                  )
+                : ExtendedImage.network(
+                    Images.getUrl(
+                      cast.backdropPath,
+                      size: Images.backdropMedium,
+                    ),
+                    width: AppService().appScreenSize.width * 0.7,
+                    height: AppService().appScreenSize.height * 0.2,
+                    fit: BoxFit.cover,
+                  ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: SysSize.paddingBig,
+                  vertical: SysSize.paddingMedium,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    StText.normal(cast.title),
                     const SizedBox(height: SysSize.paddingSmall),
-                  if (info.genreTitle.isNotEmpty)
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: <Widget>[
-                        if (info.originalLanguage?.isNotEmpty ?? false)
-                          Container(
-                            margin: const EdgeInsets.only(
-                              right: SysSize.paddingSmall,
-                              bottom: SysSize.paddingSmall,
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: SysSize.paddingSmall,
-                              horizontal: SysSize.paddingMedium,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColor.whitePrimaryColor,
-                              borderRadius: BorderRadius.circular(
-                                SysSize.paddingSmall,
-                              ),
-                            ),
-                            child: StText.small(
-                              info.originalLanguage!.toUpperCase(),
-                              style: StandardTextStyle.small.copyWith(
-                                fontSize: SysSize.tiny,
-                                color: AppColor.primaryColor,
-                              ),
-                            ),
-                          ),
-                        ...List<Widget>.generate(
-                          info.genreTitle.length,
-                          (int index) {
-                            return Container(
+
+                    StText.small('Casting: ${cast.character}'),
+
+                    // Genre Listing
+                    if (info.genreTitle.isNotEmpty)
+                      const SizedBox(height: SysSize.paddingSmall),
+                    if (info.genreTitle.isNotEmpty)
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: <Widget>[
+                          if (info.originalLanguage?.isNotEmpty ?? false)
+                            Container(
                               margin: const EdgeInsets.only(
                                 right: SysSize.paddingSmall,
                                 bottom: SysSize.paddingSmall,
@@ -100,23 +82,50 @@ class MovieCreditItem extends StatelessWidget {
                                 horizontal: SysSize.paddingMedium,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColor.whiteAccentColor,
+                                color: AppColor.whitePrimaryColor,
                                 borderRadius: BorderRadius.circular(
                                   SysSize.paddingSmall,
                                 ),
                               ),
                               child: StText.small(
-                                info.genreTitle[index],
+                                info.originalLanguage!.toUpperCase(),
                                 style: StandardTextStyle.small.copyWith(
                                   fontSize: SysSize.tiny,
+                                  color: AppColor.primaryColor,
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                ],
+                            ),
+                          ...List<Widget>.generate(
+                            info.genreTitle.length,
+                            (int index) {
+                              return Container(
+                                margin: const EdgeInsets.only(
+                                  right: SysSize.paddingSmall,
+                                  bottom: SysSize.paddingSmall,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: SysSize.paddingSmall,
+                                  horizontal: SysSize.paddingMedium,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColor.whiteAccentColor,
+                                  borderRadius: BorderRadius.circular(
+                                    SysSize.paddingSmall,
+                                  ),
+                                ),
+                                child: StText.small(
+                                  info.genreTitle[index],
+                                  style: StandardTextStyle.small.copyWith(
+                                    fontSize: SysSize.tiny,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
               ),
             ),
           ],

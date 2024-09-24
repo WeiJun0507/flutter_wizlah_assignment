@@ -18,31 +18,33 @@ class MovieCover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onDetailTap?.call,
+      onTap: onDetailTap,
       child: Container(
         padding: const EdgeInsets.only(right: SysSize.normal),
         width: AppService().appScreenSize.width * 0.35,
         child: Column(
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(SysSize.paddingBig),
-              child: Hero(
-                tag: info.id.toString(),
-                child: (info.posterPath?.isEmpty ?? true)
-                    ? Image.asset(
-                        'assets/image/tmdb_loading_placeholder.png',
-                        height: 200,
-                        width: AppService().appScreenSize.width * 0.35,
-                        fit: BoxFit.cover,
-                      )
-                    : ExtendedImage.network(
-                        Images.getUrl(
-                          info.posterPath,
-                          size: Images.posterMedium,
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(SysSize.paddingBig),
+                child: Hero(
+                  tag: info.id.toString(),
+                  child: (info.posterPath?.isEmpty ?? true)
+                      ? Image.asset(
+                          'assets/image/tmdb_loading_placeholder.png',
+                          height: 200,
+                          width: AppService().appScreenSize.width * 0.35,
+                          fit: BoxFit.cover,
+                        )
+                      : ExtendedImage.network(
+                          Images.getUrl(
+                            info.posterPath,
+                            size: Images.posterMedium,
+                          ),
+                          height: 200,
+                          fit: BoxFit.fitHeight,
                         ),
-                        height: 200,
-                        fit: BoxFit.fitHeight,
-                      ),
+                ),
               ),
             ),
             const SizedBox(height: SysSize.paddingMedium),

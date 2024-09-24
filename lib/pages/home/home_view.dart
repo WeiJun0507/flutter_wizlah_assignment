@@ -8,15 +8,15 @@ import 'package:wizlah_assignment/pages/home/search/search_view.dart';
 import 'package:wizlah_assignment/util/color.dart';
 import 'package:wizlah_assignment/util/text_style.dart';
 
-class HomeView extends GetView<HomeController> {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
-      id: 'home',
-      init: controller,
-      builder: (_) {
+    return GetBuilder<HomeController>(
+      id: HomeController.home,
+      init: Get.find<HomeController>(),
+      builder: (HomeController controller) {
         return Scaffold(
           backgroundColor: AppColor.primaryColor,
           body: PageView(

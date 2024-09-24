@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:wizlah_assignment/global/movie_manager.dart';
 import 'package:wizlah_assignment/navigator/routes.dart';
+import 'package:wizlah_assignment/pages/home/home_controller.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
 import 'package:wizlah_assignment/service/local_storage_service.dart';
 import 'package:wizlah_assignment/util/color.dart';
@@ -38,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     if (AppService().appViewPadding == EdgeInsets.zero) {
-      MediaQuery.viewPaddingOf(context);
       AppService().appViewPadding = MediaQuery.viewPaddingOf(context);
     }
 
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: AppColor.primaryColor,
       body: Center(
         child: Hero(
-          tag: 'app_logo',
+          tag: HomeController.appLogo,
           child: SvgPicture.asset(
             'assets/svg/tmdb_app_256.svg',
             width: 128,

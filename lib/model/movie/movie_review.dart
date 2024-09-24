@@ -61,6 +61,8 @@ class AuthorDetails {
 
   AuthorDetails({this.name, this.username, this.avatarPath, this.rating});
 
+  String get ratingTitle => '${rating ?? "10.0"} / 10.0';
+
   AuthorDetails.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     username = json['username'];

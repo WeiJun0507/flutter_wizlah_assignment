@@ -10,7 +10,7 @@ class SkeletonMovieCover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppService().appScreenSize.height * 0.35,
+      height: 300,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),

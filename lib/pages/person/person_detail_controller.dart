@@ -9,6 +9,9 @@ import 'package:wizlah_assignment/navigator/routes.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
 
 class PersonDetailController extends GetxController {
+  // UI Tag
+  static const String personDetailView = 'personDetailView';
+
   // Variable
   PersonInfo? info;
 
@@ -82,7 +85,7 @@ class PersonDetailController extends GetxController {
     await _getPersonMovieCredit(personId);
 
     isLoading.value = false;
-    update(['person_detail_view'].toList());
+    update([personDetailView]);
   }
 
   Future<void> _getPersonMovieCredit(personId) async {
@@ -94,7 +97,11 @@ class PersonDetailController extends GetxController {
   void goToMovieDetail(MovieInfo info) => Routes.toMovieDetail(info);
 
   void onCreditRetry() async {
+    if (info?.id == null) {
+      Get.back();
+      return;
+    }
     await _getPersonMovieCredit(info!.id!);
-    update(['person_detail_view'].toList());
+    update([personDetailView]);
   }
 }

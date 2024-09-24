@@ -23,25 +23,24 @@ class MovieListingItem extends StatelessWidget {
       builder: (_, BoxConstraints constraints) {
         return Stack(
           children: <Widget>[
-            if (info.backdropPath?.isNotEmpty ?? false)
-              Hero(
-                tag: info.id.toString(),
-                child: (info.backdropPath?.isEmpty ?? true)
-                    ? Image.asset(
-                        'assets/image/tmdb_loading_placeholder.png',
-                        width: constraints.maxWidth,
-                        height: constraints.maxHeight,
-                        fit: BoxFit.cover,
-                      )
-                    : ExtendedImage.network(
-                        Images.getUrl(
-                          info.backdropPath,
-                          size: Images.backdropHighest,
-                        ),
-                        constraints: constraints,
-                        fit: BoxFit.cover,
+            Hero(
+              tag: info.id.toString(),
+              child: (info.backdropPath?.isEmpty ?? true)
+                  ? Image.asset(
+                      'assets/image/tmdb_loading_placeholder.png',
+                      width: constraints.maxWidth,
+                      height: constraints.maxHeight,
+                      fit: BoxFit.cover,
+                    )
+                  : ExtendedImage.network(
+                      Images.getUrl(
+                        info.backdropPath,
+                        size: Images.backdropHighest,
                       ),
-              ),
+                      constraints: constraints,
+                      fit: BoxFit.cover,
+                    ),
+            ),
             // top gradient
             Positioned(
               top: 0.0,

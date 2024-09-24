@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wizlah_assignment/service/base_service.dart';
 
-class LocalStorageService {
+class LocalStorageService implements BaseService {
   static const String genre = 'genre';
   static const String nowPlayingMovieList = 'nowPlayingMovieList';
   static const String upcomingMovieList = 'upcomingMovieList';
@@ -17,6 +18,7 @@ class LocalStorageService {
 
   late final SharedPreferences prefs;
 
+  @override
   Future<void> init() async {
     prefs = await SharedPreferences.getInstance();
   }

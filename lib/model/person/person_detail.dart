@@ -35,6 +35,9 @@ class PersonDetail {
           ? 'Male'
           : 'Unknown';
 
+  String get personSubTitle =>
+      '$genderString · ${birthday ?? "-"} · ${placeOfBirth ?? ""}';
+
   PersonDetail.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     alsoKnownAs = json['also_known_as'].cast<String>();

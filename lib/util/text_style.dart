@@ -131,21 +131,7 @@ class StText extends StatelessWidget {
   }
 }
 
-getShortFormText(String text) {
-  if (text.isEmpty) return "";
-  List<String> splittedText = text.split(' ');
-  if (splittedText.length > 1) {
-    return splittedText[0][0] + splittedText[1][0];
-  }
-
-  if (splittedText[0].length > 1) {
-    return splittedText[0][0] + splittedText[0][1];
-  }
-
-  return splittedText[0][0];
-}
-
-overflowEllipsisMiddle(String text) {
+String overflowEllipsisMiddle(String text) {
   if (text.length > 10) {
     return '${text.substring(0, 6)}...${text.substring(text.length - 4)}';
   }

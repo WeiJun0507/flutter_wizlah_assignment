@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:wizlah_assignment/api/common.dart';
 import 'package:wizlah_assignment/api/movie.dart';
+import 'package:wizlah_assignment/global/base_manager.dart';
 import 'package:wizlah_assignment/model/movie/movie_detail.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/model/movie/movie_review.dart';
@@ -9,7 +10,7 @@ import 'package:wizlah_assignment/model/person/person_info.dart';
 import 'package:wizlah_assignment/model/util/common.dart';
 import 'package:wizlah_assignment/service/local_storage_service.dart';
 
-class MovieManager {
+class MovieManager implements BaseManager {
   static final MovieManager _instance = MovieManager._internal();
 
   factory MovieManager() => _instance;
@@ -18,6 +19,7 @@ class MovieManager {
 
   List<Genre> genreList = [];
 
+  @override
   void init() {
     genreList = _localGenreList;
 
@@ -120,7 +122,7 @@ class MovieManager {
     String query, {
     int page = 1,
   }) async {
-    return await MovieApi.searchMovieByQueries(
+    return MovieApi.searchMovieByQueries(
       query,
       page: page,
     );

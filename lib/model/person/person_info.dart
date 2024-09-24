@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class PersonInfo {
   bool? adult;
   int? gender;
@@ -106,6 +108,9 @@ class KnownFor {
     this.firstAirDate,
     this.originCountry,
   });
+
+  String get personTitle =>
+      '${title?.substring(0, min(10, title?.length ?? 0)) ?? '-'} · $mediaType($releaseDate)';
 
   KnownFor.fromJson(Map<String, dynamic> json) {
     backdropPath = json['backdrop_path'];
