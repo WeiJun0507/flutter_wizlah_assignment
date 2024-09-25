@@ -95,4 +95,14 @@ This project is a starting point for a Flutter application.
 1. Code refines.
 2. Add warning lint.
 
+# CHANGELOG 25 / 9 / 2024
+
+### *UI*
+
+1. Code refines.
+
+### *Logic*
+
+1. Code refines.
+
 

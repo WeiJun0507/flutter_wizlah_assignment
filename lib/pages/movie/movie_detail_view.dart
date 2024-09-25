@@ -55,7 +55,9 @@ class MovieDetailView extends StatelessWidget {
                     () => Opacity(
                       opacity: controller.appBarOpacity.value,
                       child: InkWell(
-                        onTap: Get.back,
+                        onTap: controller.appBarOpacity.value > 0.0
+                            ? Get.back
+                            : null,
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           color: AppColor.whitePrimaryColor,
@@ -131,7 +133,8 @@ class MovieDetailView extends StatelessWidget {
                           ),
 
                           Positioned(
-                            top: AppService().appViewPadding.top,
+                            top: AppService().appViewPadding.top +
+                                (kToolbarHeight / 4),
                             right: SysSize.paddingBig,
                             child: InkWell(
                               onTap: Get.back,
@@ -367,7 +370,11 @@ class MovieDetailView extends StatelessWidget {
 
   Widget _buildRecommendationMovieView(context) {
     return Container(
-      margin: const EdgeInsets.only(top: SysSize.paddingHuge),
+      margin: EdgeInsets.only(
+        top: SysSize.paddingHuge,
+        bottom: AppService().appViewPadding.bottom,
+      ),
+      padding: const EdgeInsets.only(bottom: SysSize.paddingMedium),
       height: 300,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

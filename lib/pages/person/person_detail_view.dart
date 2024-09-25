@@ -51,7 +51,9 @@ class PersonDetailView extends StatelessWidget {
                     () => Opacity(
                       opacity: controller.appBarOpacity.value,
                       child: InkWell(
-                        onTap: Get.back,
+                        onTap: controller.appBarOpacity.value > 0.0
+                            ? Get.back
+                            : null,
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           color: AppColor.whitePrimaryColor,
@@ -165,7 +167,8 @@ class PersonDetailView extends StatelessWidget {
                           ),
 
                           Positioned(
-                            top: AppService().appViewPadding.top,
+                            top: AppService().appViewPadding.top +
+                                (kToolbarHeight / 4),
                             right: SysSize.paddingBig,
                             child: InkWell(
                               onTap: Get.back,

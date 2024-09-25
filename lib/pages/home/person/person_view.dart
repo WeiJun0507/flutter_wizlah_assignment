@@ -31,25 +31,25 @@ class PersonView extends GetView<HomeController> {
                 ),
               ),
               const SizedBox(height: SysSize.paddingBig),
-              if (controller.popularPersonList.isEmpty)
-                EmptyStateView(onRetry: controller.getPopularPersonList)
-              else
-                Expanded(
-                  child: Obx(
-                    () => ListView.builder(
-                      controller: controller.personScrollController,
-                      itemCount: controller.popularPersonList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final PersonInfo info =
-                            controller.popularPersonList[index];
-                        return PersonCover(
-                          info: info,
-                          onDetailTap: () => controller.goToPersonDetail(info),
-                        );
-                      },
-                    ),
-                  ),
+              Expanded(
+                child: Obx(
+                  () => controller.popularPersonList.isEmpty
+                      ? EmptyStateView(onRetry: controller.getPopularPersonList)
+                      : ListView.builder(
+                          controller: controller.personScrollController,
+                          itemCount: controller.popularPersonList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final PersonInfo info =
+                                controller.popularPersonList[index];
+                            return PersonCover(
+                              info: info,
+                              onDetailTap: () =>
+                                  controller.goToPersonDetail(info),
+                            );
+                          },
+                        ),
                 ),
+              ),
             ],
           ),
         ),

@@ -17,11 +17,11 @@ class MovieCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onDetailTap,
-      child: Container(
-        padding: const EdgeInsets.only(right: SysSize.normal),
-        width: AppService().appScreenSize.width * 0.35,
+    return Container(
+      padding: const EdgeInsets.only(right: SysSize.normal),
+      width: AppService().appScreenSize.width * 0.35,
+      child: InkWell(
+        onTap: onDetailTap,
         child: Column(
           children: <Widget>[
             Expanded(

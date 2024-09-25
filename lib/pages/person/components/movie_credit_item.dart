@@ -21,16 +21,16 @@ class MovieCreditItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onDetailTap?.call,
-      child: Container(
-        width: AppService().appScreenSize.width * 0.7,
-        margin: const EdgeInsets.only(right: SysSize.paddingBig),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(SysSize.small),
-          border: Border.all(color: AppColor.whiteAccentColor),
-        ),
-        clipBehavior: Clip.antiAlias,
+    return Container(
+      width: AppService().appScreenSize.width * 0.7,
+      margin: const EdgeInsets.only(right: SysSize.paddingBig),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(SysSize.small),
+        border: Border.all(color: AppColor.whiteAccentColor),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onDetailTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
