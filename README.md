@@ -105,4 +105,15 @@ This project is a starting point for a Flutter application.
 
 1. Code refines.
 
+# CHANGELOG 28 / 9 / 2024
 
+- Add few Unit testing case.
+- Add mock data for Widget testing
+
+### *UI*
+
+1. Optimize code
+
+### *Logic*
+
+1. Code refines.

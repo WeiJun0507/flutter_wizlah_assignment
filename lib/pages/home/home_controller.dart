@@ -97,12 +97,10 @@ class HomeController extends GetxController
     upcomingMovieList = MovieManager().upcomingMovieList;
     popularMovieList = MovieManager().popularMovieList;
 
-    if (nowPlayingMovieList.isEmpty &&
-        topRatedMovieList.isEmpty &&
-        upcomingMovieList.isEmpty &&
-        popularMovieList.isEmpty) {
-      state = HomeLoadingState.emptyState;
-    } else {
+    if (nowPlayingMovieList.isNotEmpty ||
+        topRatedMovieList.isNotEmpty ||
+        upcomingMovieList.isNotEmpty ||
+        popularMovieList.isNotEmpty) {
       state = HomeLoadingState.none;
     }
 
@@ -119,8 +117,16 @@ class HomeController extends GetxController
       await getPopularMovieList();
     } finally {
       isLoading.value = false;
+      if (nowPlayingMovieList.isNotEmpty ||
+          topRatedMovieList.isNotEmpty ||
+          upcomingMovieList.isNotEmpty ||
+          popularMovieList.isNotEmpty) {
+        state = HomeLoadingState.none;
+      } else {
+        state = HomeLoadingState.emptyState;
+      }
 
-      update([nowPlaying, forYou]);
+      update([movieMainView, nowPlaying, forYou]);
     }
   }
 

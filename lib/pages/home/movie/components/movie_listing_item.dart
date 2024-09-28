@@ -1,6 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wizlah_assignment/api/util/images.dart';
+import 'package:wizlah_assignment/model/enum/home/home_key.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/pages/home/movie/components/movie_rating.dart';
 import 'package:wizlah_assignment/service/app_service.dart';
@@ -113,6 +114,9 @@ class MovieListingItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     StText.big(
+                      key: ValueKey(
+                        '${HomeKey.movieListingTitle.value}_${info.title}',
+                      ),
                       info.title,
                       style: StandardTextStyle.big.copyWith(
                         fontSize: SysSize.huge,
@@ -125,6 +129,9 @@ class MovieListingItem extends StatelessWidget {
                     // genre type
                     if (info.genreIds?.isNotEmpty ?? false)
                       Wrap(
+                        key: ValueKey(
+                          '${HomeKey.movieListingGenre.value}_${info.title}',
+                        ),
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: <Widget>[
                           if (info.originalLanguage?.isNotEmpty ?? false)
@@ -185,7 +192,10 @@ class MovieListingItem extends StatelessWidget {
 
                     const SizedBox(height: SysSize.paddingBig),
                     InkWell(
-                      onTap: onDetailTap?.call,
+                      key: ValueKey(
+                        '${HomeKey.movieListingDetail.value}_${info.title}',
+                      ),
+                      onTap: onDetailTap,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           vertical: SysSize.paddingMedium,

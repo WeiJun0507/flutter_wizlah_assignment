@@ -43,13 +43,17 @@ class PersonManager implements BaseManager {
   }
 
   List<PersonInfo> get popularPersonList {
-    final peopleList = LocalStorageService()
-        .prefs
-        .getString(LocalStorageService.popularPersonList);
-    if (peopleList?.isNotEmpty ?? false) {
-      return jsonDecode(peopleList!)
-          .map<PersonInfo>((e) => PersonInfo.fromJson(e))
-          .toList();
+    try {
+      final peopleList = LocalStorageService()
+          .prefs
+          .getString(LocalStorageService.popularPersonList);
+      if (peopleList?.isNotEmpty ?? false) {
+        return jsonDecode(peopleList!)
+            .map<PersonInfo>((e) => PersonInfo.fromJson(e))
+            .toList();
+      }
+    } catch (e) {
+      return <PersonInfo>[];
     }
 
     return <PersonInfo>[];

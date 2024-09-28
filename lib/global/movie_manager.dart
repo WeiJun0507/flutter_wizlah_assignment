@@ -156,52 +156,68 @@ class MovieManager implements BaseManager {
   }
 
   List<MovieInfo> get nowPlayingMovieList {
-    final playingList = LocalStorageService()
-        .prefs
-        .getString(LocalStorageService.nowPlayingMovieList);
-    if (playingList?.isNotEmpty ?? false) {
-      return jsonDecode(playingList!)
-          .map<MovieInfo>((e) => MovieInfo.fromJson(e))
-          .toList();
+    try {
+      final playingList = LocalStorageService()
+          .prefs
+          .getString(LocalStorageService.nowPlayingMovieList);
+      if (playingList?.isNotEmpty ?? false) {
+        return jsonDecode(playingList!)
+            .map<MovieInfo>((e) => MovieInfo.fromJson(e))
+            .toList();
+      }
+    } catch (e) {
+      return <MovieInfo>[];
     }
 
     return <MovieInfo>[];
   }
 
   List<MovieInfo> get upcomingMovieList {
-    final playingList = LocalStorageService()
-        .prefs
-        .getString(LocalStorageService.upcomingMovieList);
-    if (playingList?.isNotEmpty ?? false) {
-      return jsonDecode(playingList!)
-          .map<MovieInfo>((e) => MovieInfo.fromJson(e))
-          .toList();
+    try {
+      final playingList = LocalStorageService()
+          .prefs
+          .getString(LocalStorageService.upcomingMovieList);
+      if (playingList?.isNotEmpty ?? false) {
+        return jsonDecode(playingList!)
+            .map<MovieInfo>((e) => MovieInfo.fromJson(e))
+            .toList();
+      }
+    } catch (e) {
+      return <MovieInfo>[];
     }
 
     return <MovieInfo>[];
   }
 
   List<MovieInfo> get topRatedMovieList {
-    final playingList = LocalStorageService()
-        .prefs
-        .getString(LocalStorageService.topRatedMovieList);
-    if (playingList?.isNotEmpty ?? false) {
-      return jsonDecode(playingList!)
-          .map<MovieInfo>((e) => MovieInfo.fromJson(e))
-          .toList();
+    try {
+      final playingList = LocalStorageService()
+          .prefs
+          .getString(LocalStorageService.topRatedMovieList);
+      if (playingList?.isNotEmpty ?? false) {
+        return jsonDecode(playingList!)
+            .map<MovieInfo>((e) => MovieInfo.fromJson(e))
+            .toList();
+      }
+    } catch (e) {
+      return <MovieInfo>[];
     }
 
     return <MovieInfo>[];
   }
 
   List<MovieInfo> get popularMovieList {
-    final playingList = LocalStorageService()
-        .prefs
-        .getString(LocalStorageService.popularMovieList);
-    if (playingList?.isNotEmpty ?? false) {
-      return jsonDecode(playingList!)
-          .map<MovieInfo>((e) => MovieInfo.fromJson(e))
-          .toList();
+    try {
+      final playingList = LocalStorageService()
+          .prefs
+          .getString(LocalStorageService.popularMovieList);
+      if (playingList?.isNotEmpty ?? false) {
+        return jsonDecode(playingList!)
+            .map<MovieInfo>((e) => MovieInfo.fromJson(e))
+            .toList();
+      }
+    } catch (e) {
+      return <MovieInfo>[];
     }
 
     return <MovieInfo>[];

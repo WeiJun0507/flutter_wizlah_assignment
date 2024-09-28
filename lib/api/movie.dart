@@ -183,9 +183,9 @@ class MovieApi {
         },
       );
 
-      return MovieCastResponse.fromJson(res).cast ?? [];
+      return MovieCastResponse.fromJson(res).cast ?? <PersonInfo>[];
     } catch (e) {
-      return [];
+      return <PersonInfo>[];
     }
   }
 

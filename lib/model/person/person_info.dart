@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:wizlah_assignment/model/enum/person/gender.dart';
+
 class PersonInfo {
   bool? adult;
   int? gender;
@@ -23,11 +25,12 @@ class PersonInfo {
     this.knownFor,
   });
 
-  String get genderString => gender == 1
-      ? 'Female'
-      : gender == 2
-          ? 'Male'
-          : 'Unknown';
+  String get genderString => switch (gender) {
+        1 => Gender.female.title,
+        2 => Gender.male.title,
+        3 => Gender.nonBinary.title,
+        _ => Gender.none.title
+      };
 
   PersonInfo.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:wizlah_assignment/model/enum/home/common_enum.dart';
+import 'package:wizlah_assignment/model/enum/home/home_key.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/pages/components/empty_state_view.dart';
 import 'package:wizlah_assignment/pages/home/home_controller.dart';
@@ -39,6 +40,7 @@ class MovieView extends StatelessWidget {
         builder: (HomeController controller) {
           if (controller.state == HomeLoadingState.isLoading) {
             return Center(
+              key: const ValueKey(HomeKey.movieListingLoadingProgress),
               child: CircularProgressIndicator(
                 color: AppColor.themeColor,
               ),
@@ -46,6 +48,7 @@ class MovieView extends StatelessWidget {
           }
 
           return SingleChildScrollView(
+            key: const ValueKey(HomeKey.movieListingScrollKey),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -156,6 +159,9 @@ class MovieView extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               final MovieInfo info = movieList[index];
                               return MovieCover(
+                                key: ValueKey(
+                                  '${HomeKey.movieListingForYouItem.value}_${controller.currentTabIdx}_${info.title}',
+                                ),
                                 info: info,
                                 onDetailTap: () => controller.goToMovieDetail(
                                   info,

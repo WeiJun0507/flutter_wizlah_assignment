@@ -17,7 +17,7 @@ class MovieCastingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onDetailTap?.call,
+      onTap: onDetailTap,
       child: Container(
         width: 80.0,
         padding: const EdgeInsets.symmetric(horizontal: SysSize.paddingMedium),

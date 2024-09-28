@@ -51,13 +51,13 @@ class MovieInfo {
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
     overview = json['overview'];
-    popularity = json['popularity'];
+    popularity = double.tryParse(json['popularity'].toString());
     posterPath = json['poster_path'];
     releaseDate = json['release_date'];
     title = json['title'];
     video = json['video'];
-    voteAverage = json['vote_average'];
-    voteCount = json['vote_count'];
+    voteAverage = double.tryParse(json['vote_average'].toString());
+    voteCount = int.tryParse(json['vote_count'].toString());
   }
 
   Map<String, dynamic> toJson() {

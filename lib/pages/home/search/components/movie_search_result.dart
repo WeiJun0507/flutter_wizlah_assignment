@@ -20,7 +20,7 @@ class MovieSearchResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onDetailTap?.call,
+      onTap: onDetailTap,
       child: Container(
         padding: const EdgeInsets.all(SysSize.paddingMedium),
         decoration: BoxDecoration(
