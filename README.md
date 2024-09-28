@@ -117,3 +117,7 @@ This project is a starting point for a Flutter application.
 ### *Logic*
 
 1. Code refines.
+
+# CHANGELOG 28 / 9 / 2024
+
+- Support integration testing

@@ -11,7 +11,7 @@ class MockMovieListApi {
   static Future<List<MovieInfo>> getUpcomingMovie() async {
     try {
       final Map<String, dynamic> data = await loadJson(
-        'test/integration_test/api/upcoming_movie_response.json',
+        'integration_test/api/upcoming_movie_response.json',
       );
 
       return MovieListResponse.fromJson(data).results ?? <MovieInfo>[];
@@ -24,7 +24,7 @@ class MockMovieListApi {
   static Future<List<MovieInfo>> getNowPlayingList() async {
     try {
       final Map<String, dynamic> data = await loadJson(
-        'test/integration_test/api/now_playing_movie_response.json',
+        'integration_test/api/now_playing_movie_response.json',
       );
 
       return MovieListResponse.fromJson(data).results ?? <MovieInfo>[];
@@ -37,7 +37,7 @@ class MockMovieListApi {
   static Future<List<MovieInfo>> getPopularList() async {
     try {
       final Map<String, dynamic> data = await loadJson(
-        'test/integration_test/api/popular_movie_response.json',
+        'integration_test/api/popular_movie_response.json',
       );
 
       return MovieListResponse.fromJson(data).results ?? <MovieInfo>[];
@@ -50,7 +50,7 @@ class MockMovieListApi {
   static Future<List<MovieInfo>> getTopRatedList() async {
     try {
       final Map<String, dynamic> data = await loadJson(
-        'test/integration_test/api/top_rated_movie_response.json',
+        'integration_test/api/top_rated_movie_response.json',
       );
 
       return MovieListResponse.fromJson(data).results ?? <MovieInfo>[];

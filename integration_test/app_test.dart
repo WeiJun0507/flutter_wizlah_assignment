@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:wizlah_assignment/global/movie_manager.dart';
 import 'package:wizlah_assignment/model/enum/home/home_key.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
 import 'package:wizlah_assignment/navigator/routes.dart';
 import 'package:wizlah_assignment/pages/home/home_controller.dart';
 import 'package:wizlah_assignment/pages/home/home_view.dart';
+import 'package:wizlah_assignment/service/app_service.dart';
+import 'package:wizlah_assignment/service/local_storage_service.dart';
 
 import 'api/mock_movie_list_api.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
   Future<List<MovieInfo>> getPlayingMovieList() async {
     return MockMovieListApi.getNowPlayingList();
   }
@@ -27,6 +33,8 @@ void main() {
   }
 
   testWidgets('Display Home UI correctly', (WidgetTester tester) async {
+    await LocalStorageService().init();
+    MovieManager().init();
     // Inject ViewController
     Get.put(HomeController());
     final homeController = Get.find<HomeController>();
@@ -40,9 +48,22 @@ void main() {
           useMaterial3: true,
         ),
         getPages: Routes.getPages,
-        home: const HomeView(),
+        home: Builder(
+          builder: (context) {
+            if (AppService().appScreenSize == Size.zero) {
+              AppService().appScreenSize = MediaQuery.sizeOf(context);
+            }
+
+            if (AppService().appViewPadding == EdgeInsets.zero) {
+              AppService().appViewPadding = MediaQuery.viewPaddingOf(context);
+            }
+            return const HomeView();
+          },
+        ),
       ),
     );
+
+    await tester.pump(Duration(seconds: 3));
 
     if (homeController.nowPlayingMovieList.isEmpty &&
         homeController.topRatedMovieList.isEmpty &&
@@ -57,19 +78,6 @@ void main() {
 
     // Simulate fetching movie details
     await tester.pumpAndSettle();
-
-    final List<List<MovieInfo>> movieList = await Future.wait([
-      getPlayingMovieList(),
-      getTopRatedMovieList(),
-      getUpcomingMovieList(),
-      getPopularMovieList(),
-    ]);
-
-    homeController.nowPlayingMovieList = movieList[0];
-    homeController.topRatedMovieList = movieList[1];
-    homeController.upcomingMovieList = movieList[2];
-    homeController.popularMovieList = movieList[3];
-
     // Verify movie now playing list is ready
     expect(homeController.nowPlayingMovieList.isNotEmpty, true);
     // Verify movie now playing list is ready
@@ -116,53 +124,55 @@ void main() {
     );
 
     // Find the widget that should be dragged
-    // final scrollViewFinder = find.byKey(
-    //   const ValueKey(HomeKey.movieListingScrollKey),
-    // );
+    final scrollViewFinder = find.byKey(
+      const ValueKey(HomeKey.movieListingScrollKey),
+    );
 
     // Simulate dragging by a certain offset
-    // await tester.drag(scrollViewFinder, const Offset(0, -500));
-    // await tester.pump();
+    await tester.drag(scrollViewFinder, const Offset(0, -500));
+    await tester.pump();
 
     // Verify For you category
-    // expect(find.text('For you'), findsOneWidget);
+    expect(find.text('For you'), findsOneWidget);
 
     // Verify for you movies listing
-    // final MovieInfo topRatedInfo = homeController.topRatedMovieList.first;
+    final MovieInfo topRatedInfo = homeController.topRatedMovieList.first;
 
     // Verify movie title is shown
-    // expect(
-    //   find.byKey(
-    //     ValueKey(
-    //       '${HomeKey.movieListingForYouItem.value}_${homeController.currentTabIdx}_${topRatedInfo.title}',
-    //     ),
-    //   ),
-    //   findsOneWidget,
-    // );
-    //
-    // final nowTrendingButton = find.text('Now Trending');
-    //
-    // await tester.tap(nowTrendingButton);
-    // final MovieInfo popularInfo = homeController.popularMovieList.first;
-    // expect(
-    //   find.byKey(
-    //     ValueKey(
-    //       '${HomeKey.movieListingForYouItem.value}_${homeController.currentTabIdx}_${popularInfo.title}',
-    //     ),
-    //   ),
-    //   findsOneWidget,
-    // );
-    //
-    // final upcomingButton = find.text('Upcoming Soon');
-    // await tester.tap(upcomingButton);
-    // final MovieInfo upcomingInfo = homeController.upcomingMovieList.first;
-    // expect(
-    //   find.byKey(
-    //     ValueKey(
-    //       '${HomeKey.movieListingForYouItem.value}_${homeController.currentTabIdx}_${upcomingInfo.title}',
-    //     ),
-    //   ),
-    //   findsOneWidget,
-    // );
+    expect(
+      find.byKey(
+        ValueKey(
+          '${HomeKey.movieListingForYouItem.value}_${homeController.currentTabIdx}_${topRatedInfo.title}',
+        ),
+      ),
+      findsOneWidget,
+    );
+
+    final nowTrendingButton = find.text('Now Trending');
+
+    await tester.tap(nowTrendingButton);
+    await tester.pumpAndSettle();
+    final MovieInfo popularInfo = homeController.popularMovieList.first;
+    expect(
+      find.byKey(
+        ValueKey(
+          '${HomeKey.movieListingForYouItem.value}_${homeController.currentTabIdx}_${popularInfo.title}',
+        ),
+      ),
+      findsOneWidget,
+    );
+
+    final upcomingButton = find.text('Upcoming Soon');
+    await tester.tap(upcomingButton);
+    await tester.pumpAndSettle();
+    final MovieInfo upcomingInfo = homeController.upcomingMovieList.first;
+    expect(
+      find.byKey(
+        ValueKey(
+          '${HomeKey.movieListingForYouItem.value}_${homeController.currentTabIdx}_${upcomingInfo.title}',
+        ),
+      ),
+      findsOneWidget,
+    );
   });
 }
