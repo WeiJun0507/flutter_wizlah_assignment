@@ -91,5 +91,4 @@ flutter:
     - assets/svg/
     - assets/svg/state/
     - assets/image/
-    - test/widget_test/api/
     - integration_test/api/

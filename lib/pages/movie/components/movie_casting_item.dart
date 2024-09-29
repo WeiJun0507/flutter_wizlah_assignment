@@ -2,6 +2,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wizlah_assignment/api/util/images.dart';
 import 'package:wizlah_assignment/model/person/person_info.dart';
+import 'package:wizlah_assignment/util/color.dart';
 import 'package:wizlah_assignment/util/text_style.dart';
 
 class MovieCastingItem extends StatelessWidget {
@@ -13,6 +14,26 @@ class MovieCastingItem extends StatelessWidget {
     required this.info,
     this.onDetailTap,
   });
+
+  Widget imageLoadStateCallback(ExtendedImageState imageState) {
+    switch (imageState.extendedImageLoadState) {
+      case LoadState.failed:
+        return Image.asset(
+          'assets/image/tmdb_loading_placeholder.png',
+          height: 60.0,
+          width: 60.0,
+          fit: BoxFit.cover,
+        );
+      case LoadState.completed:
+        return imageState.completedWidget;
+      default:
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColor.themeColor,
+          ),
+        );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +60,7 @@ class MovieCastingItem extends StatelessWidget {
                     height: 60.0,
                     width: 60.0,
                     fit: BoxFit.cover,
+                    loadStateChanged: imageLoadStateCallback,
                   ),
             const SizedBox(height: SysSize.paddingSmall),
             StText.small(

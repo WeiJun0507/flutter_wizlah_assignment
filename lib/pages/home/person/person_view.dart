@@ -34,7 +34,10 @@ class PersonView extends GetView<HomeController> {
               Expanded(
                 child: Obx(
                   () => controller.popularPersonList.isEmpty
-                      ? EmptyStateView(onRetry: controller.getPopularPersonList)
+                      ? EmptyStateView(
+                          title: 'person',
+                          onRetry: controller.getPopularPersonList,
+                        )
                       : ListView.builder(
                           controller: controller.personScrollController,
                           itemCount: controller.popularPersonList.length,

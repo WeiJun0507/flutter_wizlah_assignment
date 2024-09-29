@@ -14,6 +14,26 @@ class MovieReviewItem extends StatelessWidget {
     required this.info,
   });
 
+  Widget imageLoadStateCallback(ExtendedImageState imageState) {
+    switch (imageState.extendedImageLoadState) {
+      case LoadState.failed:
+        return Image.asset(
+          'assets/image/tmdb_loading_placeholder.png',
+          height: 30.0,
+          width: 30.0,
+          fit: BoxFit.cover,
+        );
+      case LoadState.completed:
+        return imageState.completedWidget;
+      default:
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColor.themeColor,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,6 +91,7 @@ class MovieReviewItem extends StatelessWidget {
                       height: 30.0,
                       fit: BoxFit.cover,
                       shape: BoxShape.circle,
+                      loadStateChanged: imageLoadStateCallback,
                     ),
               if (info.authorDetails != null)
                 const SizedBox(width: SysSize.paddingMedium),

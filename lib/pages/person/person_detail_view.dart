@@ -24,6 +24,26 @@ class PersonDetailView extends StatelessWidget {
     controller = Get.find<PersonDetailController>(tag: tag.toString());
   }
 
+  Widget imageLoadStateCallback(ExtendedImageState imageState) {
+    switch (imageState.extendedImageLoadState) {
+      case LoadState.failed:
+        return Image.asset(
+          'assets/image/tmdb_loading_placeholder.png',
+          width: AppService().appScreenSize.width,
+          height: AppService().appScreenSize.height * 0.6,
+          fit: BoxFit.cover,
+        );
+      case LoadState.completed:
+        return imageState.completedWidget;
+      default:
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColor.themeColor,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PersonDetailController>(
@@ -33,7 +53,7 @@ class PersonDetailView extends StatelessWidget {
         if (controller.info == null) {
           return Align(
             alignment: Alignment.center,
-            child: EmptyStateView(onRetry: Get.back),
+            child: EmptyStateView(title: 'person detail', onRetry: Get.back),
           );
         }
 
@@ -108,6 +128,7 @@ class PersonDetailView extends StatelessWidget {
                                     height:
                                         AppService().appScreenSize.height * 0.6,
                                     fit: BoxFit.cover,
+                                    loadStateChanged: imageLoadStateCallback,
                                   ),
                           ),
 
@@ -288,7 +309,7 @@ class PersonDetailView extends StatelessWidget {
           const StText.big('Movie Cast'),
           const SizedBox(height: SysSize.paddingMedium),
           if (controller.movieCreditsList.isEmpty)
-            EmptyStateView(onRetry: controller.onCreditRetry)
+            EmptyStateView(title: 'casting', onRetry: controller.onCreditRetry)
           else
             Expanded(
               child: ListView.builder(

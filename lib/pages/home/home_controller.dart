@@ -181,7 +181,7 @@ class HomeController extends GetxController
       if (page != 1) {
         popularPersonList.addAll(infoResults);
       } else {
-        popularPersonList.assignAll(infoResults);
+        if (infoResults.isNotEmpty) popularPersonList.assignAll(infoResults);
       }
     } finally {
       isPersonLoading = false;

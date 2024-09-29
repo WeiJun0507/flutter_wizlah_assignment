@@ -121,3 +121,10 @@ This project is a starting point for a Flutter application.
 # CHANGELOG 28 / 9 / 2024
 
 - Support integration testing
+
+--- 
+
+# CHANGELOG 29 / 9 / 2024
+
+- Improve no network user interaction
+- Add precise error handling for network request

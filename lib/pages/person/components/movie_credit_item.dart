@@ -19,6 +19,26 @@ class MovieCreditItem extends StatelessWidget {
 
   MovieInfo get info => MovieInfo.fromJson(cast.toJson());
 
+  Widget imageLoadStateCallback(ExtendedImageState imageState) {
+    switch (imageState.extendedImageLoadState) {
+      case LoadState.failed:
+        return Image.asset(
+          'assets/image/tmdb_loading_placeholder.png',
+          width: AppService().appScreenSize.width * 0.7,
+          height: AppService().appScreenSize.height * 0.2,
+          fit: BoxFit.cover,
+        );
+      case LoadState.completed:
+        return imageState.completedWidget;
+      default:
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColor.themeColor,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,6 +69,7 @@ class MovieCreditItem extends StatelessWidget {
                     width: AppService().appScreenSize.width * 0.7,
                     height: AppService().appScreenSize.height * 0.2,
                     fit: BoxFit.cover,
+                    loadStateChanged: imageLoadStateCallback,
                   ),
             Expanded(
               child: Container(

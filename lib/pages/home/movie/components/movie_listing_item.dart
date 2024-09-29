@@ -18,6 +18,29 @@ class MovieListingItem extends StatelessWidget {
     this.onDetailTap,
   });
 
+  Widget imageLoadStateCallback(
+    ExtendedImageState imageState,
+    BoxConstraints constraints,
+  ) {
+    switch (imageState.extendedImageLoadState) {
+      case LoadState.failed:
+        return Image.asset(
+          'assets/image/tmdb_loading_placeholder.png',
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          fit: BoxFit.cover,
+        );
+      case LoadState.completed:
+        return imageState.completedWidget;
+      default:
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColor.themeColor,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -40,6 +63,8 @@ class MovieListingItem extends StatelessWidget {
                       ),
                       constraints: constraints,
                       fit: BoxFit.cover,
+                      loadStateChanged: (state) =>
+                          imageLoadStateCallback(state, constraints),
                     ),
             ),
             // top gradient

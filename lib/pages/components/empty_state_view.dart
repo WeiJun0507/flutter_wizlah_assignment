@@ -4,9 +4,10 @@ import 'package:wizlah_assignment/util/color.dart';
 import 'package:wizlah_assignment/util/text_style.dart';
 
 class EmptyStateView extends StatelessWidget {
+  final String title;
   final VoidCallback? onRetry;
 
-  const EmptyStateView({super.key, this.onRetry});
+  const EmptyStateView({super.key, required this.title, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,7 @@ class EmptyStateView extends StatelessWidget {
           borderRadius: BorderRadius.circular(SysSize.paddingMedium),
         ),
         alignment: Alignment.center,
-        child: const StText.big(
-          'No movie display. Try again.',
-        ),
+        child: StText.big('No $title display. Try again.'),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:wizlah_assignment/api/common.dart';
 import 'package:wizlah_assignment/api/movie.dart';
 import 'package:wizlah_assignment/global/base_manager.dart';
@@ -31,13 +32,18 @@ class MovieManager implements BaseManager {
   }
 
   Future<void> getRemoteGenre() async {
-    genreList = await CommonApi.getMovieGenre();
+    try {
+      List<Genre> tempGenreList = await CommonApi.getMovieGenre();
 
-    if (genreList.isNotEmpty) {
-      LocalStorageService().prefs.setString(
-            LocalStorageService.genre,
-            jsonEncode(genreList),
-          );
+      if (tempGenreList.isNotEmpty) {
+        genreList = tempGenreList;
+        LocalStorageService().prefs.setString(
+              LocalStorageService.genre,
+              jsonEncode(genreList),
+            );
+      }
+    } catch (e) {
+      debugPrint('Genre List get Error: ${e.toString()}');
     }
   }
 

@@ -146,6 +146,7 @@ class MovieView extends StatelessWidget {
                         if (movieList.isEmpty) {
                           return EmptyStateView(
                             key: UniqueKey(),
+                            title: 'movie',
                             onRetry: controller.onMovieRetry,
                           );
                         }

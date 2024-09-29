@@ -28,6 +28,26 @@ class MovieDetailView extends StatelessWidget {
     controller = Get.find<MovieDetailController>(tag: tag);
   }
 
+  Widget imageLoadStateCallback(ExtendedImageState imageState) {
+    switch (imageState.extendedImageLoadState) {
+      case LoadState.failed:
+        return Image.asset(
+          'assets/image/tmdb_loading_placeholder.png',
+          height: 200,
+          width: AppService().appScreenSize.width,
+          fit: BoxFit.cover,
+        );
+      case LoadState.completed:
+        return imageState.completedWidget;
+      default:
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColor.themeColor,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +60,7 @@ class MovieDetailView extends StatelessWidget {
           if (controller.info == null) {
             return Align(
               alignment: Alignment.center,
-              child: EmptyStateView(onRetry: Get.back),
+              child: EmptyStateView(title: 'movie detail', onRetry: Get.back),
             );
           }
 
@@ -83,23 +103,24 @@ class MovieDetailView extends StatelessWidget {
                         children: <Widget>[
                           Hero(
                             tag: controller.info!.id.toString(),
-                            child:
-                                (controller.info!.backdropPath?.isEmpty ?? true)
-                                    ? Image.asset(
-                                        'assets/image/tmdb_loading_placeholder.png',
-                                        height: 200,
-                                        width: AppService().appScreenSize.width,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : ExtendedImage.network(
-                                        Images.getUrl(
-                                          controller.info?.backdropPath,
-                                          size: Images.backdropHighest,
-                                        ),
-                                        width: AppService().appScreenSize.width,
-                                        height: 200,
-                                        fit: BoxFit.cover,
-                                      ),
+                            child: (controller.info!.backdropPath?.isEmpty ??
+                                    true)
+                                ? Image.asset(
+                                    'assets/image/tmdb_loading_placeholder.png',
+                                    height: 200,
+                                    width: AppService().appScreenSize.width,
+                                    fit: BoxFit.cover,
+                                  )
+                                : ExtendedImage.network(
+                                    Images.getUrl(
+                                      controller.info?.backdropPath,
+                                      size: Images.backdropHighest,
+                                    ),
+                                    width: AppService().appScreenSize.width,
+                                    height: 200,
+                                    fit: BoxFit.cover,
+                                    loadStateChanged: imageLoadStateCallback,
+                                  ),
                           ),
 
                           // bottom gradient
@@ -192,7 +213,9 @@ class MovieDetailView extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: SysSize.paddingMedium),
-                    StText.big(controller.movieDetail?.title),
+                    StText.big(
+                      controller.movieDetail?.title ?? controller.info?.title,
+                    ),
                     const SizedBox(height: SysSize.paddingMedium),
                     StText.small(
                       controller.movieDetail?.movieDetailSubtitle,
@@ -321,7 +344,7 @@ class MovieDetailView extends StatelessWidget {
           const StText.big('Top Casts'),
           const SizedBox(height: SysSize.paddingBig),
           if (controller.movieCastingList.isEmpty)
-            EmptyStateView(onRetry: controller.onCastingRetry)
+            EmptyStateView(title: 'casting', onRetry: controller.onCastingRetry)
           else
             Expanded(
               child: ListView.builder(
@@ -351,7 +374,12 @@ class MovieDetailView extends StatelessWidget {
           const StText.big('Reviews'),
           const SizedBox(height: SysSize.paddingBig),
           if (controller.movieReviewList.isEmpty)
-            Expanded(child: EmptyStateView(onRetry: controller.onReviewRetry))
+            Expanded(
+              child: EmptyStateView(
+                title: 'review',
+                onRetry: controller.onReviewRetry,
+              ),
+            )
           else
             Expanded(
               child: ListView.builder(
@@ -383,7 +411,10 @@ class MovieDetailView extends StatelessWidget {
           const SizedBox(height: SysSize.paddingBig),
           if (controller.recommendationMovieList.isEmpty)
             Expanded(
-              child: EmptyStateView(onRetry: controller.onRecommendRetry),
+              child: EmptyStateView(
+                title: 'recommend movie',
+                onRetry: controller.onRecommendRetry,
+              ),
             )
           else
             Expanded(

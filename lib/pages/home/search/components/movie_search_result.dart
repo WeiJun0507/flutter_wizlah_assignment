@@ -17,6 +17,26 @@ class MovieSearchResult extends StatelessWidget {
     this.onDetailTap,
   });
 
+  Widget imageLoadStateCallback(ExtendedImageState imageState) {
+    switch (imageState.extendedImageLoadState) {
+      case LoadState.failed:
+        return Image.asset(
+          'assets/image/tmdb_loading_placeholder.png',
+          height: 200,
+          width: AppService().appScreenSize.width * 0.35,
+          fit: BoxFit.cover,
+        );
+      case LoadState.completed:
+        return imageState.completedWidget;
+      default:
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColor.themeColor,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -49,6 +69,7 @@ class MovieSearchResult extends StatelessWidget {
                     width: AppService().appScreenSize.width * 0.3,
                     height: 200,
                     fit: BoxFit.cover,
+                    loadStateChanged: imageLoadStateCallback,
                   ),
             const SizedBox(width: SysSize.paddingBig),
             Expanded(

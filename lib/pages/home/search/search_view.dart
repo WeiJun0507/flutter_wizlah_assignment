@@ -79,6 +79,7 @@ class SearchView extends GetView<HomeController> {
         }
 
         return EmptyStateView(
+          title: 'searched movie',
           onRetry: controller.getSearchResult,
         );
       }
@@ -124,7 +125,7 @@ class SearchView extends GetView<HomeController> {
       SizedBox(
         height: 250,
         child: controller.topRatedMovieList.isEmpty
-            ? const EmptyStateView()
+            ? const EmptyStateView(title: 'movie')
             : ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.topRatedMovieList.length,
@@ -149,7 +150,7 @@ class SearchView extends GetView<HomeController> {
       SizedBox(
         height: 250,
         child: controller.upcomingMovieList.isEmpty
-            ? const EmptyStateView()
+            ? const EmptyStateView(title: 'movie')
             : ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.upcomingMovieList.length,
@@ -174,7 +175,7 @@ class SearchView extends GetView<HomeController> {
       SizedBox(
         height: 250,
         child: controller.popularMovieList.isEmpty
-            ? const EmptyStateView()
+            ? const EmptyStateView(title: 'movie')
             : ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.popularMovieList.length,
