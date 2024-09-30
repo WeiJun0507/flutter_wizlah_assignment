@@ -275,14 +275,14 @@ class HomeController extends GetxController
     isLoading.value = true;
     switch (currentTabIdx) {
       case 1:
-        await getTopRatedMovieList();
+        await getPopularMovieList();
         break;
       case 2:
         await getUpcomingMovieList();
         break;
       case 0:
       default:
-        await getPopularMovieList();
+        await getTopRatedMovieList();
         break;
     }
 

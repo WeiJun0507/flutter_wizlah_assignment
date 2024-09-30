@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:wizlah_assignment/global/movie_manager.dart';
 import 'package:wizlah_assignment/model/enum/home/common_enum.dart';
 import 'package:wizlah_assignment/model/enum/home/home_key.dart';
 import 'package:wizlah_assignment/model/movie/movie_info.dart';
@@ -58,6 +59,16 @@ class MovieView extends StatelessWidget {
                   child: GetBuilder<HomeController>(
                     id: HomeController.nowPlaying,
                     builder: (HomeController controller) {
+                      if (controller.nowPlayingMovieList.isEmpty) {
+                        return EmptyStateView(
+                          title: 'now playing movies',
+                          onRetry: () {
+                            MovieManager().getRemoteGenre();
+                            controller.initMovieListAsync();
+                          },
+                        );
+                      }
+
                       return PageView.builder(
                         physics: const ClampingScrollPhysics(),
                         itemCount: controller.nowPlayingMovieList.length,
